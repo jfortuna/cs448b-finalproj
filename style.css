@@ -1,0 +1,297 @@
+h1 {
+	font-size:100px; 
+	color:black; 
+	text-align:center; 
+}
+
+body {
+	background-color:white;
+	text-align:center; 
+//	font-family: 'Merriweather', serif;
+//	font-family: 'Open Sans', sans-serif;
+//	font-family: 'Wire One', sans-serif;
+//	font-family: 'Arimo', sans-serif;
+//	font-family: 'Lobster', cursive;
+	font-family: 'Raleway', sans-serif;
+}
+
+#name {
+	color:#A50F15; 	
+	font-family: 'Lobster', cursive;
+
+}
+
+#back img {
+	width:5%; 
+	height:90px; 
+	width:40px; 
+	opacity:0.00;
+	float:left; 
+	margin-top:20%; 
+	position:relative; 
+}
+
+#back img:hover {
+	opacity:1.0;
+}
+
+#showContents img {
+	width:5%; 
+	height:90px; 
+	width:40px; 
+	opacity:0.00;
+	position:relative; 
+	-webkit-transform:rotate(270deg);
+	cursor:pointer;
+}
+
+#showContents img:hover {
+	opacity:1.0; 	
+}
+
+#contents img {
+	width:5%; 
+	height:100px; 
+	width:100px; 
+	position:relative; 
+	cursor:pointer;
+}
+
+#forward img {
+	width:5%; 
+	height:90px; 
+	width:40px;
+	opacity:0.00;
+	float:right;  
+	margin-top:20%; 
+	position: relative; 
+}
+
+#forward img:hover {
+	opacity:0.8;
+}
+
+#center 
+{
+	position: absolute; 
+	width: 90%; 
+	left:5%; 
+	text-align:center; 
+}
+
+#instructions 
+{
+	font-size:30px; 
+}
+
+#condom img 
+{
+	width:150px; 
+	height: 150px; 	
+	margin-top:10px; 
+}
+
+#condom
+{
+	width:170px;  	
+	height:170px; 
+	color:black; 
+	font-size:20px; 
+
+}
+
+#condom:hover
+{
+	background-color:#C0C0C0; 
+	color:black; 
+	font-weight:bold; 
+	font-size:20px; 
+	cursor:pointer; 
+}
+
+#fc2 img 
+{
+	width:100px; 
+	height: 150px; 	
+	margin-top:10px; 
+}
+
+#fc2
+{
+	width:120px;  	
+	height:170px; 
+	color:#C0C0C0; 
+}
+
+#fc2:hover
+{
+	background-color:#C0C0C0; 
+	color:black; 
+	font-weight:bold; 
+	font-size:20px; 
+}
+
+
+table 
+{
+	position: relative; 
+	margin-left:auto; 
+}
+
+
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+#states {
+//  fill: #aaa;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+#states .active {
+}
+
+td {
+	border: 6px solid black;
+	height:200px; 
+	width:200px; 
+}
+
+
+#contents
+{
+	padding-bottom:100px; 
+	height:150px; 
+}
+
+.enter {
+  fill: green;
+}
+
+.update {
+  fill: #333;
+}
+
+#statistics {
+	font-size:1px;
+	height:300px;  
+}
+#slider {
+	float:right; 
+	width:90%; 
+	margin-top:20px;  	
+}
+#year {
+	float:left; 
+	font-size:40px; 	
+}
+
+#controls {
+	height:100px; 	
+}
+
+.good {
+	background-color:#238B45; 
+	color:white;
+	font-size:23px; 	
+}
+
+.good:hover {
+	background-color:#41AB5D; 
+	font-weight:bold;
+	cursor:pointer; 
+}
+.bad {
+	background-color:#CB181D; 	
+	color:white; 
+	font-size:23px; 	
+}
+
+.bad:hover {
+	background-color:#EF3B2C; 
+	font-weight:bold; 
+	cursor:pointer; 
+}
+
+#details {
+	margin-left:auto; 
+	margin-right:auto; 
+	color:black; 
+	width:30%;
+}
+
+#extraDetails {
+	font-family:"Arial", Times, serif;	
+	font-size:20px; 
+}
+
+h2 {
+	font-size:200%; 	
+}
+
+form {
+	font-family:"Arial", Times, serif;	
+	font-size:15px; 
+}
+
+.arc path {
+  stroke: #fff;
+}
+
+#totalCases {
+	left:400px; 
+	bottom:150px;
+	font-size:30px;
+	color:grey; 
+	position:relative; 	
+}
+
+#usa:hover {
+	cursor:pointer; 
+}
+
+
+svg {
+	font-family: 'Raleway', sans-serif;
+}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+path.line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+path.area {
+  fill: #e7e7e7;
+}
+
+#middle {
+	text-align:center; 
+	margin:-100px; 
+}
+
+#inner {
+	font-family: 'Raleway', sans-serif;
+	position:relative; 
+	top:270px;
+	left:10px; 
+	font-size:75px;
+	color:white; 
+}
+
+#inner:hover {
+	cursor:pointer; 	
+}
+
+text {
+  font: 15px sans-serif;
+}

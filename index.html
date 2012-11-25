@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway+Dots' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v2.min.js?2.9.6"></script>
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="nvtooltip.js"></script>
+
+<link rel="stylesheet" href="d3.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script src="index.js" type="text/javascript"></script>
+
+<script>
+$(function() {
+    $( "#slider" ).slider();
+});
+</script>
+
+</head>
+
+<body>
+
+<div id = "center"> 
+	<div id = "header">
+		&nbsp;  
+	</div> 
+	
+	<div id = "statistics"> 
+		<p> <div id = "countries"><b>166</b> countries </div> 
+		<div id = "people"> <b>32</b> million people worldwide </div> 
+		<div id = "us"> <b>1.2</b> million in the US </div> 
+		<div id = "disease">  <b>1</b> killer </div> 
+		<div id = "middle"> <div id = "inner"> &nbsp </div> </div> 
+ 	</div> 
+	
+	<div id = "instructions"></div> 
+	<div id = "donutMap"> </div> 
+	<div id = "map"> &nbsp; </div> 
+	<div id = "totalCases"> &nbsp; </div> 
+	<div id = "controls"> <div id = "year"> 2000 </div> <div id="slider"></div></div> 
+</div> 
+
+
+
+<div id = "forward"> 
+	<a href="#" onclick="nextSlide()">
+		<img src="rightarrow_b.png" alt="right arrow">
+	</a>
+</div> 
+
+</body>
+</html>
+

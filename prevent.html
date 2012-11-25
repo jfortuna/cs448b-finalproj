@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+
+<script src="http://d3js.org/d3.v2.min.js?2.9.6"></script>
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="d3.css">
+<script src="prevent.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<script> 
+$('#malecondom').hover(function() {
+  document.getElementById("details").innerHTML = "Male condom"; 
+});
+</script> 
+
+<div id = "center"> 
+
+	<h1>protect<span id = "name">yourself </span> </h1> 
+		
+	<div id = "instructions"> 
+			<p> Explore different contraceptive methods. </p> 
+	</div> 
+	
+	<div id = "methods"> 
+		<table align = "center"> 
+		<tr> 
+			<td align = "center" id = "pullingout" class = "bad"> 
+				<p> pulling out </p> 
+			</td> 
+			
+			<td align = "center" id = "bcp" class = "bad"> 
+				<p> birth control pills </p> 
+			</td> 
+			
+			<td align = "center" id = "abstinence" class = "good"> 
+				<p> abstinence </p> 
+			</td> 
+		
+			<td align = "center" id = "femalecondom" class = "good"> 
+				<p> female condom </p> 
+			</td> 
+			
+			<td align = "center" id = "malecondom" class = "good"> 
+				<p> male condom </p> 
+			</td> 
+		</tr> 
+		</table> 
+	</div> 
+	<div id = "details"> 
+		&nbsp; 
+	</div> 
+</div> 
+<div id = "back"> 
+	<a href="index.html">
+		<img src="leftarrow_b.png" alt="left arrow">
+	</a>
+</div> 
+
+
+<div id = "forward"> 
+	<a href="http://www.google.com">
+		<img src="rightarrow_b.png" alt="right arrow">
+	</a>
+</div> 
+
+
+<script> 
+
+$('#malecondom').mouseover(function() {
+	var message = "When used correctly, the male condom is 98% effective at preventing sexually transmitted infections, including HIV/AIDS"; 
+	document.getElementById("details").innerHTML = "<h2><b> male condom </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
+});
+
+$('#femalecondom').mouseover(function() {
+	var message = "When used correctly, the female condom is 98% effective at preventing sexually transmitted infections, including HIV/AIDS"; 
+	document.getElementById("details").innerHTML = "<h2><b> female condom </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
+
+});
+
+$('#abstinence').mouseover(function() {
+	var message = "Abstinence from sex is the only way to prevent contracting HIV/AIDS through sexual contact"; 
+	document.getElementById("details").innerHTML = "<h2><b> abstinence </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
+});
+
+$('#bcp').mouseover(function() {
+	var message = "Birth Control pills do not protect against HIV/AIDS. They are moderately effective at preventing pregnancy when taken correctly."; 
+	document.getElementById("details").innerHTML = "<h2><b> birth control pills </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
+});
+
+$('#pullingout').mouseover(function() {
+	var message = "Pulling out does not protect against HIV/AIDS. It is moderately effective at preventing pregnancy when done correctly 100% of the time."; 
+	document.getElementById("details").innerHTML = "<h2><b> pulling out </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
+});
+
+$('td').mouseout(function() {
+	document.getElementById("details").innerHTML = " "
+});
+
+</script> 
+
+
+</body>
+</html>
+
