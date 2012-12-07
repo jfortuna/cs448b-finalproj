@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AIDS diagnoses</title>
+    <link rel="stylesheet" type="text/css" href="./aids-style.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v2.js"></script>
+  </head>
+<body>
+<div id="main-wrapper">
+    <div id="content">
+        <h1>AIDS diagnoses</h1>
+        <p>Introduction to visualization...</p>
+        
+        <div id="filters">
+            <a id="California">California</a>
+            <a id="male">Male</a>
+            <a id="female">Female</a>
+        </div>
+
+        <div id="blurb">
+            <div id="default-blurb">
+                <h2>USA</h2>
+                <p>AIDS diagnoses in the USA were at a rate of ? in 2010.</p>
+            </div>
+            <div id="blurb-content"></div>
+        </div>
+
+        <div id="vis"></div>
+        <div id="stories"></div>
+        <div style="clear:both;"></div>
+        <div id="cite">Source: NCHHSTP Atlas</div>
+        
+    </div>
+</div>
+
+<script type="text/javascript" src="./aids.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#filters a').click(function() {
+        var countryId = $(this).attr("id");
+        $(this).toggleClass(countryId);
+        showRegion(countryId);
+    });
+    
+});
+</script>
+</body>
+</html>
