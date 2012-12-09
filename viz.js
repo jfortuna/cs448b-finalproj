@@ -1,7 +1,7 @@
 function showPie() {
 	var width = 600,
-	    height = 350,
-	    radius = Math.min(width, height) / 2;
+	    height = 400,
+	    radius = Math.min(width, height) / 2 - 25;
 	
 	var color = d3.scale.ordinal()
 	    .range(["#CB181D", "#FC9272"]);
@@ -75,7 +75,7 @@ function showTreemap(div) {
 	      .on("mouseout", mouseout)
 	      .text(function(d) { return d.children ? null : d.name; });
 	
-	  d3.selectAll("input").on("change", function change() {
+	  d3.selectAll("#input").on("change", function change() {
 	    var value = this.value === "pop"
 	        ? function(d) { return d.pop; }
 	        : function(d) { return d.size; };
@@ -89,7 +89,6 @@ function showTreemap(div) {
 	});
 	function mousemove() {
 		nvtooltip.cleanup(); 
-		console.log(this.__data__.size); 
 		nvtooltip.show([event.pageX, event.pageY], "<p><b>" + this.innerHTML + "</b></p><p>"+ this.__data__.size +" new cases in 2010</h4>");
 	}
 	
@@ -111,7 +110,6 @@ var worldCounter = 0;
 var cyWorld = 100; 
 function worldTimer(svg)
 {
-	console.log("here!"); 
 	svg.append("circle")
     	.attr("cy", cyWorld)
     	.attr("cx", xlocationWorld)

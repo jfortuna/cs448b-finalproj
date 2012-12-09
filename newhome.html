@@ -4,7 +4,7 @@
 
 <title> HIV/AIDS </title> 
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Buenard' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
@@ -39,12 +39,16 @@ button, #orientations input {
 	background-color:#FB6A4A; 
 	font-family: 'Raleway', sans-serif;
 }
+input:hover {
+	cursor:pointer; 	
+}
 
 button:hover {
 	cursor:pointer; 	
 }
+
 text {
-	font-size:10px; 	
+	font-size:15px; 	
 }
 
 .headline {
@@ -90,7 +94,7 @@ h1 {
 }
 
 #counter {
-	height:1000px; 	
+	height:900px; 	
 }
 
 #us-circles {
@@ -140,7 +144,7 @@ td {
 
 
 #legend {
-	left:650px; 
+	left:570px; 
 	width:200px; 
 	position:relative; 	
 	bottom:200px; 
@@ -275,8 +279,15 @@ svg {
 	<div class="headline"> HIV/AIDS affects Americans of all ages... </div> 
 		<div class="left-side"> 
 			<p class = "details"> Use the buttons below to resize based on population or cases</p> 
-			<button type="button" onclick='#'>proportioned by number of cases</button>
-			<button type="button" onclick='#'>proportioned by population</button>
+			<button type="button" value = "cases">proportioned by number of cases</button>
+			<button type="button" value = "pop">proportioned by population</button>
+			<form>
+				<div id="radioAges">
+				<input type="radio" id="radio2" value = "cases" name="radio" checked="checked" /><label for="radio2">number of cases</label>
+    			<input type="radio" id="radio1" value = "pop" name="radio" /><label for="radio1">population size</label>
+				</div>
+			</form>
+
 
 		</div> 
 		<div class="right-side" id="country-details"> 
@@ -294,8 +305,8 @@ svg {
 		<div class="right-side" id="country-details">  
 			<p class = "details"> Use the buttons to proportion the tree by </p>
 			<form>
-			  <input type="button" name="mode" value="cases" checked>
-			  <input type="button" name="mode" value="equal">
+			  <input type="button" name="mode" value="cases per group" checked>
+			  <input type="button" name="mode" value="equal distribution">
 			</form>
  
 		</div>
@@ -306,13 +317,13 @@ svg {
 		<div class = "headline"> ...and ethnicities...</div> 
 		<div class="left-side"> 
 			<p class = "details">Explore groups affected by HIV/AIDS. Toggle proportions below.</p> 
-			<button type="button" onclick='showCases()'>proportioned by number of cases</button>
-			<button type="button" onclick='showPop()'>proportioned by population</button>
+			<button type="button" value = "cases">proportioned by number of cases</button>
+			<button type="button" value = "pop">proportioned by population</button>
 			
 		</div> 
 		<div class="right-side" id="country-details" >  
 			<p class = "details"> New HIV/AIDS cases in 2010 and ethnicity </p> 
-			<div id = "bubbles"> </div>
+			<div id = "ethBubbles"> </div>
 		</div>
 	</div> 
 	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#map")></div>
@@ -357,7 +368,7 @@ svg {
 
 			<p> &nbsp; </p> 
 			<p> &nbsp; </p> <p> &nbsp; </p>
-			<div id = "enterbutton"> <a href="http://www.google.com">Meet Americans living with HIV/AIDS</a> </div> 
+			<button id = "enterbutton"> <a href="http://www.google.com">Meet Americans living with HIV/AIDS</a> </button> 
 
 	</div> 
 	
@@ -393,8 +404,12 @@ function scrollTo(hash) {
         $( "#slider" ).slider();
     });
     
-showEthnicities("#bubbles"); 
-showEthnicities("#ageBubbles"); 
+     $(function() {
+        $( "#radioAges" ).buttonset();
+    });
+
+showEthnicities("#ageBubbles", "flare.json"); 
+showEthnicities("#ethBubbles", "flareEth.json"); 
 startWorldCircles(); 
 startUSCircles(); 
 showPie(); 

@@ -1,8 +1,8 @@
 {
 "name": "graph",
      "children": [
-      {"name": "REALLY OLD", "size": 16188, "pop":13.1, "id":"id3"},
-      {"name": "MIDDLE AGED", "size": 6636, "pop":16.7, "id":"id4"},
+      {"name": "Black/Af-American", "size": 16188, "pop":13.1, "id":"id3"},
+      {"name": "Hispanic/Latino", "size": 6636, "pop":16.7, "id":"id4"},
       {"name": "White", "size": 8875, "pop":63.4, "id":"id6"},
       {"name": "Multiple races", "size": 622, "pop":2.3, "id":"id7"},
       {"name": "Am Indian/Alaska Native", "size": 170, "pop": 1.2, "id":"id1"},

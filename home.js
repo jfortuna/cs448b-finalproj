@@ -226,52 +226,52 @@ function showMap() {
      }
 
 }
-
-function showPop() {
-		console.log("Here"); 
-		var cases = "pop"; 
-		var size = $("#id7").attr(cases);
-		d3.select("#id7").transition().duration(1000).attr("r", size); 
-		size = $("#id6").attr(cases);
-		d3.select("#id6").transition().duration(1000).attr("r", size); 
-	    size = $("#id5").attr(cases);
-		d3.select("#id5").transition().duration(1000).attr("r", size); 
-	    size = $("#id4").attr(cases);
-		d3.select("#id4").transition().duration(1000).attr("r", size); 
-	    size = $("#id3").attr(cases);
-		d3.select("#id3").transition().duration(1000).attr("r", size); 
-	    size = $("#id2").attr(cases);
-		d3.select("#id2").transition().duration(1000).attr("r", size); 
-		size = $("#id1").attr(cases);
-		d3.select("#id1").transition().duration(1000).attr("r", size); 	
-		
-		d3.layout.pack()
-
-
-	}
-
-
-	function showCases() {
-		var cases = "cases"; 
-		var size = ($("#id7").attr(cases) / 33025) * 250;
-		console.log("New size " + size); 
-		d3.select("#id7").transition().duration(1000).attr("r", size); 
-		size = ($("#id6").attr(cases) / 33025) * 250;
-		d3.select("#id6").transition().duration(1000).attr("r", size); 
-		size = ($("#id5").attr(cases) / 33025) * 250;
-		d3.select("#id5").transition().duration(1000).attr("r", size); 
-		size = ($("#id4").attr(cases) / 33025) * 250;
-		d3.select("#id4").transition().duration(1000).attr("r", size); 
-		size = ($("#id3").attr(cases) / 33025) * 250;
-		d3.select("#id3").transition().duration(1000).attr("r", size); 
-		size = ($("#id2").attr(cases) / 33025) * 250;
-		d3.select("#id2").transition().duration(1000).attr("r", size); 
-		size = ($("#id1").attr(cases) / 33025) * 250;
-		d3.select("#id1").transition().duration(1000).attr("r", size); 
-		
-	}
+//
+//function showPop() {
+//		console.log("Here"); 
+//		var cases = "pop"; 
+//		var size = $("#id7").attr(cases);
+//		d3.select("#id7").transition().duration(1000).attr("r", size); 
+//		size = $("#id6").attr(cases);
+//		d3.select("#id6").transition().duration(1000).attr("r", size); 
+//	    size = $("#id5").attr(cases);
+//		d3.select("#id5").transition().duration(1000).attr("r", size); 
+//	    size = $("#id4").attr(cases);
+//		d3.select("#id4").transition().duration(1000).attr("r", size); 
+//	    size = $("#id3").attr(cases);
+//		d3.select("#id3").transition().duration(1000).attr("r", size); 
+//	    size = $("#id2").attr(cases);
+//		d3.select("#id2").transition().duration(1000).attr("r", size); 
+//		size = $("#id1").attr(cases);
+//		d3.select("#id1").transition().duration(1000).attr("r", size); 	
+//		
+//		d3.layout.pack()
+//
+//
+//	}
+//
+//
+//	function showCases() {
+//		var cases = "cases"; 
+//		var size = ($("#id7").attr(cases) / 33025) * 250;
+//		console.log("New size " + size); 
+//		d3.select("#id7").transition().duration(1000).attr("r", size); 
+//		size = ($("#id6").attr(cases) / 33025) * 250;
+//		d3.select("#id6").transition().duration(1000).attr("r", size); 
+//		size = ($("#id5").attr(cases) / 33025) * 250;
+//		d3.select("#id5").transition().duration(1000).attr("r", size); 
+//		size = ($("#id4").attr(cases) / 33025) * 250;
+//		d3.select("#id4").transition().duration(1000).attr("r", size); 
+//		size = ($("#id3").attr(cases) / 33025) * 250;
+//		d3.select("#id3").transition().duration(1000).attr("r", size); 
+//		size = ($("#id2").attr(cases) / 33025) * 250;
+//		d3.select("#id2").transition().duration(1000).attr("r", size); 
+//		size = ($("#id1").attr(cases) / 33025) * 250;
+//		d3.select("#id1").transition().duration(1000).attr("r", size); 
+//		
+//	}
 	
-function showEthnicities(div) {
+function showEthnicities(div, file) {
 	var width = 600,
 		height = 600,
 	    format = d3.format(",d"),
@@ -286,23 +286,45 @@ function showEthnicities(div) {
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("class", "bubble");
+	    
 	
-	
-	d3.json("flare.json", function(root) {
+	d3.json(file, function(root) {
+	  var arrP = bubble.nodes(classesPop(root));
+	  var arrC = bubble.nodes(classesCases(root)); 
 	  var node = svg.selectAll(".node")
-	      .data(bubble.nodes(classesCases(root))
+	      .data(bubble.nodes(classesPop(root))
 	      .filter(function(d) { return !d.children; }))
 	    .enter().append("g")
 	      .attr("class", "node")
-	      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-	
+	      .attr("transform", function(d, i) { return "translate(" + d.x + "," + d.y + ")"; });
+	console.log("START~~~~~~~~");
+
 	 d3.selectAll("button").on("click", function change() {
-	 	var node = svg.selectAll("circle")
-		 	.data(bubble.nodes(classesPop(root)))
-		      	.transition().duration(1500)
-		        .attr("r", function(d) {console.log("changing the radius to: " + d.r); return d.r});
-//				.attr("transform", function(d) { console.log(d.r + " " + d.className); return "translate(" + d.x + "," + d.y + ")"; });
-	      });
+	 	var stringCircle = div + " circle"; 
+	 	var stringText = div + " text"; 
+	 	console.log(this.value + " HERE! " + "String circle: " + stringCircle); 
+	 	if (this.value == "cases") {
+		 	d3.selectAll(stringCircle).transition().duration(1500)
+		 		.attr("r", function(d,i) {return arrC[i+1].r})
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
+		 	d3.selectAll(stringText).transition().duration(1500)
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
+	      }
+	      else {
+		 	d3.selectAll(stringCircle).transition().duration(1500)
+		 		.attr("r", function(d,i) {return arrP[i+1].r})
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
+		 	d3.selectAll(stringText).transition().duration(1500)
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
+
+	      }
+
+	      
+	      
+	      
+	      }
+	      
+	      );
 	
 	  node.append("title")
 	      .text(function(d) { return d.className + ": " + format(d.value); });
@@ -318,10 +340,7 @@ function showEthnicities(div) {
 	      .style("text-anchor", "middle")
 	      .text(function(d) { return d.className; });
 	      
-	  function position() {
-	  	console.log("position"); 
-	
-	  }  
+
 
 
 	});
@@ -383,7 +402,7 @@ d3.json("sexy.json", function(root) {
       .text(function(d) { return d.children ? null : d.name; });
 
   d3.selectAll("input").on("click", function change() {
-    var value = this.value === "equal"
+    var value = this.value === "equal distribution"
         ? function() { return 1; }
         : function(d) { return d.size; };
 
