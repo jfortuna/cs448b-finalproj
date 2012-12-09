@@ -1,0 +1,39 @@
+{
+    "name": "HIV/AIDS",
+    "children": [
+                 {
+                 "name": "Males",
+                 "children": [
+                              {
+                              "name": "Heterosexual",
+                              "children": [
+                                           {"name": "Black", "size": 2400}
+                                           ]
+                              },
+                              {
+                              "name": "MSM",
+                              "children": [
+                                           {"name": "White", "size": 10400},
+                                           {"name": "Black", "size": 10800},
+                                           {"name": "Hispanic/Latino", "size": 6000}
+                                           ]
+                              }
+                              ]
+                 },
+                 {
+				"name": "Females",
+                 "children": [
+                              {
+                              "name": "Het",
+                              "children": [
+                                           {"name": "Black", "size": 5400},
+                                           {"name": "Hispanic/Latina", "size": 1700},
+                                           {"name": "White", "size": 1700}
+                                           ]
+                              }
+                            
+                              ]
+
+}
+]
+}

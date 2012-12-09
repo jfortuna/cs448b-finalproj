@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="d3.css">
+
+
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+
+<body>
+<h1> This is my blank page </h1> 
+<div id= "map"> </div> 
+<div id="totalCases"></div>
+</body>
+<script> 
+showMap(); 
+function showMap() {
+	document.getElementById("totalCases").innerHTML = "41031 total cases";
+	var year = 2000; 
+	var isZoomed = false; 
+	var dataArray = new Array(); 
+    var aidsData = new Array();
+    
+    d3.csv("aidsdata", function(error, data) {
+        data.forEach(function(d) { 
+        	dataArray.push(d); 
+        });
+    });
+    
+    function getPercentForYearForState(state, yearToGet) {
+        for (var i = 0; i < 616; i++) {
+            if (dataArray[i] != null) {	 
+                if (dataArray[i].state == state && dataArray[i].year == yearToGet) return dataArray[i].turnout_rate; 
+            }
+        }
+        return 0; 	
+    }
+    
+	function mousemove() 
+	{
+		nvtooltip.cleanup(); 
+		var event = d3.event; 
+		var d = this.__data__; 
+		var selectedBar = d3.select(this).select("rect");
+		var content = "<p> <b>" + d.properties.name + "</b></p> <p> " + getPercentForYearForState(d.properties.name, year) + " cases per 100,000</p>"; 
+	    if (!isZoomed) nvtooltip.show([event.pageX, event.pageY], content);
+	}
+	
+	function mouseout() 
+	{
+		nvtooltip.cleanup(); 
+	}
+    
+	var width = 960,
+    height = 500,
+    centered;
+	
+	
+	var fill = d3.scale.quantile()
+    .domain([0, 5, 10, 15, 20, 25, 30, 250])
+    .range(["#FEE5D9", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D"]);
+    
+	var projection = d3.geo.albersUsa()
+    .scale(width)
+    .translate([0, 0]);
+	
+	var path = d3.geo.path()
+    .projection(projection);
+	
+	var svg = d3.select("#map").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+	
+	svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", click);
+	function click(d) {
+        var x = 0,
+        y = 0,
+        k = 1;
+        
+        if (d && centered !== d) {
+            var centroid = path.centroid(d);
+            x = -centroid[0];
+            y = -centroid[1];
+            k = 4;
+            centered = d;
+        } else {
+            centered = null;
+        }
+        
+        g.selectAll("path")
+        .classed("active", centered && function(d) { return d === centered; });
+        
+        g.transition()
+        .duration(1000)
+        .attr("transform", "scale(" + k + ")translate(" + x + "," + y + ")")
+        .style("stroke-width", 1.5 / k + "px");
+    }
+	var g = svg.append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .append("g")
+    .attr("id", "states");
+    d3.json("readme.json", function(error, json) {
+        g.selectAll("path")
+        .data(json.features)
+        .enter().append("path")
+        .attr("d", path)
+        .on("click", click)
+        .on('mousemove', mousemove)
+        .on('mouseout', mouseout)
+        .attr("fill", function(d) { 
+            var state = d.properties.name; 
+            var percent = getPercentForYearForState(state, year); 
+            return fill(percent); 
+        })
+    });
+    
+	function getPercentForYearForState(state, yearToGet) {
+        for (var i = 0; i < dataArray.length; i++) {
+            if (dataArray[i] != null) {	
+                if (dataArray[i].state == state && dataArray[i].year == yearToGet) return dataArray[i].turnout_rate; 
+            }
+        }
+        return 0; 	
+    }
+    
+    function getTotalForYear(yearToGet) {
+    	var sum = 0; 
+        for (var i = 0; i < dataArray.length; i++) {
+            if (dataArray[i] != null && dataArray[i].year == yearToGet) {	
+                sum += parseInt(dataArray[i].Cases); 
+            }
+        }
+        return sum; 	
+    }
+    
+}
+</script>
+
+</html>
+

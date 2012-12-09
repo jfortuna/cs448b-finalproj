@@ -17,8 +17,7 @@ body {
 
 #name {
 	color:#A50F15; 	
-	font-family: 'Lobster', cursive;
-
+	font-family: 'Raleway', sans-serif;
 }
 
 #back img {
@@ -154,11 +153,7 @@ table
 #states .active {
 }
 
-td {
-	border: 6px solid black;
-	height:200px; 
-	width:200px; 
-}
+
 
 
 #contents
@@ -181,8 +176,11 @@ td {
 }
 #slider {
 	float:right; 
-	width:90%; 
+	width:80%; 
 	margin-top:20px;  	
+}
+#map {
+	margin-top: -100px; 
 }
 #year {
 	float:left; 
@@ -204,6 +202,7 @@ td {
 	font-weight:bold;
 	cursor:pointer; 
 }
+
 .bad {
 	background-color:#CB181D; 	
 	color:white; 
@@ -241,13 +240,7 @@ form {
   stroke: #fff;
 }
 
-#totalCases {
-	left:400px; 
-	bottom:150px;
-	font-size:30px;
-	color:grey; 
-	position:relative; 	
-}
+
 
 #usa:hover {
 	cursor:pointer; 
@@ -294,4 +287,36 @@ path.area {
 
 text {
   font: 15px sans-serif;
+}
+
+#malecondom:hover {
+	background-image:url('condom.png');
+	background-size:200px 200px;
+	background-repeat:no-repeat;
+	background-color:white; 
+	background-position:center; 
+}
+
+#femalecondom:hover {
+	background-image:url('fc2.jpeg');
+	background-size:125px 200px;
+	background-repeat:no-repeat;
+	background-color:white; 
+	background-position:center; 
+}
+
+#pullingout:hover {
+	background-image:url('x.png');
+	background-size:200px 200px;
+	background-repeat:no-repeat;
+	background-color:white; 
+	background-position:center; 
+}
+
+#abstinence:hover {
+	background-image:url('pants.jpg');
+	background-size:125px 200px;
+	background-repeat:no-repeat;
+	background-color:white; 
+	background-position:center; 
 }
