@@ -1,0 +1,104 @@
+/* Normalize */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, figure, form, fieldset, input, p, blockquote, th, td, legend {
+	margin: 0;
+	padding: 0;
+}
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 3.0em;
+}
+h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+}
+p { line-height: 1.4em; margin-bottom: 1.0em; }
+a { color: #821122; }
+#content {
+    width: 925px;
+    margin: 0 auto;
+}
+#filters {
+    font-family: Helvetica, Arial, sans-serif;
+    margin-bottom: 20px;
+}
+#filters a {
+    color: #000;
+    font-size: 12px;
+    padding: 5px;
+    background: #e2e2e2;
+    cursor: pointer;
+    margin-right: 3px;
+}
+#filters a:last-child {
+    margin-right: 0;
+}
+#filters a { background: #895881; color: #fff; }
+
+#vis {
+    min-height: 500px;
+    float: left;
+}
+#stories {
+    width: 300px;
+    min-height: 500px;
+    float: right;
+}
+#blurb {
+    height: 60px;
+    border-top: 1px solid #e2e2e2;
+    padding-top: 20px;
+}
+
+path {
+    stroke: #a3a3a3;
+    stroke-width: 0.9px;
+    stroke-opacity: 0.15;
+	fill: none;
+}
+path.current, path.highlight.current {
+    stroke: #d62728;
+    stroke-width: 1.7px;
+    stroke-opacity: 1;
+}
+.highlight {
+    stroke: #895881;
+    stroke-opacity: 1;
+    stroke-width: 1px;
+}
+
+line {
+    stroke: black;
+}
+
+text {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+}
+.axis {
+    stroke-width: 0.5;
+    stroke: #000;
+}
+.xTicks, .yTicks {
+    stroke-width: 0.5;
+    stroke: #000;
+}
+#cite { font-size: 0.8em; text-align: right; margin-top:10px; padding-bottom: 20px; }
+#cite a { background: #e2e2e2; text-decoration: none; color: #821122; }
+
+
+#profile {
+    width: 500px;
+    margin: 0 auto;
+}
+#profile-pic {
+    float: left;
+}
+#basic-info {
+    float: left;
+}
+#story {
+    
+}
