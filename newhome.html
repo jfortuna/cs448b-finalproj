@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title> HIV/AIDS </title> 
+<title> HIV: stories + data </title> 
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
@@ -21,23 +21,37 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 
 <style> 
+
+td img:hover {
+	border:2px solid black; 	
+}
 .segment {
 	background-color: #F8F8F8; 	
 	height:400px; 
 	width:100%; 
 }
-#factoids {
+.factoids {
 	margin:auto; 
-	width:300px; 	
+	width:420px; 	
 }
 
-#prop-americans, #orientations {
+#ageBubbles, #ethBubbles {
+	margin-top:-50px; 	
+}
+
+#prop-americans {
+	height:500px; 	
+}
+
+#orientations {
 	height:500px; 	
 }
 button, #orientations input {
 	font-size:30px;
 	background-color:#FB6A4A; 
 	font-family: 'Raleway', sans-serif;
+	padding:10px; 
+	margin:-2px; 
 }
 input:hover {
 	cursor:pointer; 	
@@ -69,6 +83,14 @@ text {
 
 #bubbles {
 	margin-top:-50px; 	
+}
+
+#sexylegend {
+	margin-top: 10px; 	
+}
+
+#sexytree {
+	margin-top:-30px; 	
 }
 
 .details {
@@ -239,7 +261,7 @@ svg {
 	<h1>hiv<span id = "name">aids</span> </h1> 
 	<div id = "instructions">stories + data = understanding</div> 
 	
-	<div class="segment even"> 
+	<div class="segment even" id = "hoversegment"> 
 	<div class="headline"> HIV/AIDS is a worldwide problem... </div> 
 		<div class="left-side"> 
 			<p class = "details"> People all over the world are affected, and in some countries the HIV/AIDS prevalence rate is >20%</p> 
@@ -253,7 +275,7 @@ svg {
 			</tr> 
 			</table> 
 		</div> 
-		<div class="right-side" id="country-details"> <p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p> Hover over the maps to see more details</p> 
+		<div class="right-side" id="country-details"> <p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p class = "details"> Hover over the maps to see more details</p> 
 		</div>
 	</div> 
 	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#prop-americans")></div>
@@ -278,19 +300,18 @@ svg {
 	<div class="segment even" id="ages"> 
 	<div class="headline"> HIV/AIDS affects Americans of all ages... </div> 
 		<div class="left-side"> 
-			<p class = "details"> Use the buttons below to resize based on population or cases</p> 
-			<button type="button" value = "cases">proportioned by number of cases</button>
-			<button type="button" value = "pop">proportioned by population</button>
-			<form>
-				<div id="radioAges">
-				<input type="radio" id="radio2" value = "cases" name="radio" checked="checked" /><label for="radio2">number of cases</label>
-    			<input type="radio" id="radio1" value = "pop" name="radio" /><label for="radio1">population size</label>
-				</div>
-			</form>
-
-
+			<p class="details"> use the buttons to filter by </p> 
+			  <button name="mode" value="cases" class = "agesButt" id = "casesA"> cases per group </button> 
+			  <button name="mode" value="pop" class = "agesButt" id = "popA"> population </button> 
+			<br> <br> 
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> Most cases of HIV/AIDS in children are the result of perinatal transmission <br><br> If a mother's HIV/AIDS is caught early in the pregnancy, risk of transmission can be decreased with zidovudine<br> 
+				 <br> </p> 
+			</div> 
 		</div> 
-		<div class="right-side" id="country-details"> 
+		<div class="right-side" id="country-details">
+		<p id="agesTitle" class="details"> American population distribution in 2010 </p>   
 		<div id = "ageBubbles"> </div>  
 		</div>
 	</div> 
@@ -299,16 +320,23 @@ svg {
 	<div class="segment even" id = "orientations">
 		<div class = "headline"> ...and sexual orientations...</div> 
 		<div class="left-side"> 
-			<p class="details"> New cases in 2009 for the CDC's high risk groups </p> 
+			<p class="details"> New cases in the United States for the CDC's high risk groups, 2009 <br> Groups subdivided by ethnicity </p> 
+
 			<div id = "sexytree"> </div>
 		</div> 
 		<div class="right-side" id="country-details">  
 			<p class = "details"> Use the buttons to proportion the tree by </p>
 			<form>
-			  <input type="button" name="mode" value="cases per group" checked>
-			  <input type="button" name="mode" value="equal distribution">
+			  <input type="button" name="mode" value="cases per group" id = "casesSexy" checked>
+			  <input type="button" name="mode" value="equal distribution" id = "equalSexy">
 			</form>
- 
+ 			<div id = "sexylegend"> </div>
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> In 2009, MSM constituted 61% of new HIV/AIDS cases. But, the disease is certainly <i> NOT </i> limited to this population. </p>   
+				 <br> </p> 
+			</div> 
+
 		</div>
 	</div> 
 	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#ethnicity")></div>
@@ -317,12 +345,19 @@ svg {
 		<div class = "headline"> ...and ethnicities...</div> 
 		<div class="left-side"> 
 			<p class = "details">Explore groups affected by HIV/AIDS. Toggle proportions below.</p> 
-			<button type="button" value = "cases">proportioned by number of cases</button>
-			<button type="button" value = "pop">proportioned by population</button>
-			
+			<button type="button" value = "cases" class = "ethButt" id = "casesE">cases per group</button>
+			<button type="button" value = "pop" class = "ethButt" id = "popE">population</button>
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> 
+				Young, black MSM were the only risk group in the U.S. to experience statistically significant increases in new HIV infections from 2006-2009: from 4,400 new HIV infections in 2006 to 6,500 infections in 2009.(Aids.gov) 
+				<br>
+				<br> By proportion, African-Americans are most severly affected by HIV/AIDS. <br> 
+				 <br> </p> 
+			</div> 
 		</div> 
 		<div class="right-side" id="country-details" >  
-			<p class = "details"> New HIV/AIDS cases in 2010 and ethnicity </p> 
+			<p id = "ethTitle" class = "details"> American Population Distribution in 2010 </p> 
 			<div id = "ethBubbles"> </div>
 		</div>
 	</div> 
@@ -340,8 +375,8 @@ svg {
 		</div> 
 		<div class="right-side" id="country-details">  
 			<p class = "details">use the map to explore state-by-state trends from 2000 - 2010</p> 
-			<div id = "factoids"> 
-			<p class = "statement"> factoids </p> 
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
 				<p class = "details"> HIV/AIDS cases tend to be clustered around urban areas <br><br> 
 				As of 2009, the South had the highest concentration of people living with HIV/AIDS <br> </p> 
 			</div> 
@@ -372,8 +407,8 @@ svg {
 
 	</div> 
 	
-<p>Map images courtesy of CIA world FactBook</p>
-<p>Data courtesy CDC: http://www.cdc.gov/hiv/topics/surveillance/basic.htm </p>
+<p>Map images & frequency estimates courtesy of CIA world FactBook, for 2009</p>
+<p>Data & factoids courtesy CDC: http://www.cdc.gov/hiv/topics/surveillance/basic.htm, AIDS.gov </p>
 <p>World infection rate provided by avert.org </p> 
 <p>US population ethnicity data provided by the US Census Bureau</p>
 </div> 
@@ -381,11 +416,11 @@ svg {
 <script> 
 
 $('#botswana').mouseover(function() {
-	document.getElementById("country-details").innerHTML = "<p class='statement'> Botswana </p><p class='prev'> 26.1%</p><p>prevalence rate</p>"; 
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Botswana </p><p class='prev'> 24.80%</p><p>prevalence rate</p>"; 
 }); 
 
 $('#switzerland').mouseover(function() {
-	document.getElementById("country-details").innerHTML = "<p class='statement'> Switzerland </p><p class='prev'> 0.60%</p><p>prevalence rate</p>"; 
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Switzerland </p><p class='prev'> 0.40%</p><p>prevalence rate</p>"; 
 }); 
 
 $('#unitedstates').mouseover(function() {
@@ -393,7 +428,11 @@ $('#unitedstates').mouseover(function() {
 }); 
 
 $('#thailand').mouseover(function() {
-	document.getElementById("country-details").innerHTML = "<p class='statement'> Thailand </p><p class='prev'> 1.40%</p><p>prevalence rate</p>"; 
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Thailand </p><p class='prev'> 1.30%</p><p>prevalence rate</p>"; 
+}); 
+
+$("#hoversegment").mouseout(function() {
+	document.getElementById("country-details").innerHTML = "<p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p class = \"details\"> Hover over the maps to see more details</p> "; 
 }); 
 
 function scrollTo(hash) {
@@ -408,8 +447,8 @@ function scrollTo(hash) {
         $( "#radioAges" ).buttonset();
     });
 
-showEthnicities("#ageBubbles", "flare.json"); 
-showEthnicities("#ethBubbles", "flareEth.json"); 
+showAges(); 
+showEthnicities(); 
 startWorldCircles(); 
 startUSCircles(); 
 showPie(); 

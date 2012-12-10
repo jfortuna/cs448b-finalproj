@@ -4,10 +4,10 @@
       {"name": "Black/Af-American", "size": 16188, "pop":13.1, "id":"id3"},
       {"name": "Hispanic/Latino", "size": 6636, "pop":16.7, "id":"id4"},
       {"name": "White", "size": 8875, "pop":63.4, "id":"id6"},
-      {"name": "Multiple races", "size": 622, "pop":2.3, "id":"id7"},
-      {"name": "Am Indian/Alaska Native", "size": 170, "pop": 1.2, "id":"id1"},
-      {"name": "Hawaiian/Other Pac Islander", "size": 44, "pop":0.2, "id":"id5"},
-            {"name": "Asian", "size": 480, "pop": 5, "id":"id2"}
+      {"name": "M", "size": 622, "pop":2.3, "id":"id7"},
+      {"name": "AI", "size": 170, "pop": 1.2, "id":"id1"},
+      {"name": "H/O", "size": 44, "pop":0.2, "id":"id5"},
+      {"name": "Asian", "size": 480, "pop": 5, "id":"id2"}
 
      ]
     }

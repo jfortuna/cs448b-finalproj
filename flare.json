@@ -1,13 +1,17 @@
 {
 "name": "graph",
      "children": [
-      {"name": "REALLY OLD", "size": 16188, "pop":13.1, "id":"id3"},
-      {"name": "MIDDLE AGED", "size": 6636, "pop":16.7, "id":"id4"},
-      {"name": "White", "size": 8875, "pop":63.4, "id":"id6"},
-      {"name": "Multiple races", "size": 622, "pop":2.3, "id":"id7"},
-      {"name": "Am Indian/Alaska Native", "size": 170, "pop": 1.2, "id":"id1"},
-      {"name": "Hawaiian/Other Pac Islander", "size": 44, "pop":0.2, "id":"id5"},
-            {"name": "Asian", "size": 480, "pop": 5, "id":"id2"}
-
+      {"name": "< 15", "size": 75, "pop":61227, "id":"id4"},
+      {"name": "15-19", "size": 529, "pop":22040, "id":"id6"},
+      {"name": "20-24", "size": 2262, "pop":21586, "id":"id7"},
+      {"name": "25-29", "size": 3379, "pop": 21102, "id":"id1"},
+      {"name": "30-34", "size": 4009, "pop":19962, "id":"id5"},
+      {"name": "35-39", "size": 4464, "pop":20180, "id":"id2"},
+      {"name": "40-44", "size": 5198, "pop":20891, "id":"id5"},
+      {"name": "45-49", "size": 5194, "pop":22709, "id":"id5"},
+      {"name": "50-54", "size": 3825, "pop":22298, "id":"id5"},
+      {"name": "55-59", "size": 2100, "pop":19665, "id":"id5"},
+      {"name": "60-64", "size": 1094, "pop":16818, "id":"id5"},
+      {"name": ">65", "size": 889, "pop":40268, "id":"id5"}
      ]
     }

@@ -4,7 +4,7 @@ $(function() {
 });
 
 window.onload=function(){
-//	reset(); 
+    //	reset(); 
 };
 
 
@@ -191,237 +191,353 @@ function showMap() {
         });
     }
     function displayLegend() {
-         d3.select("#legend").selectAll("svg").remove();
-         var legend = d3.select("#legend").append("svg")
-             .attr("width", 225)
-             .attr("height", 200)
-             .append("g");
-         var yPos = 25;
-         for (var i = 0; i <= fill.quantiles().length; i++) {
-             var valueForLegendSquare;
-             var endValueForLegendSquare;
-             if (i == 0) {
-                 valueForLegendSquare = 0;
-                 endValueForLegendSquare = fill.quantiles()[i] - 0.1;
-             } else if (i == fill.quantiles().length) {
-                 valueForLegendSquare = fill.quantiles()[i - 1];
-                 endValueForLegendSquare = 100;
-             } else {
-                 valueForLegendSquare = fill.quantiles()[i - 1];
-                 endValueForLegendSquare = fill.quantiles()[i] - 0.1;
-             }
-             legend.append("rect")
-                 .attr("x", 0)
-                 .attr("width", 20)
-                 .attr("y", yPos)
-                 .attr("height", 20)
-                 .attr("fill", function(d) { return fill(valueForLegendSquare); });
-             legend.append("text")
-                 .attr("x", 25)
-                 .attr("y", yPos + 15)
-                 .style("text-anchor", "beginning")
-                 .text(valueForLegendSquare + " - " + endValueForLegendSquare + " cases per 100,000");
-             yPos += 25;
-         }
-     }
-
-}
-//
-//function showPop() {
-//		console.log("Here"); 
-//		var cases = "pop"; 
-//		var size = $("#id7").attr(cases);
-//		d3.select("#id7").transition().duration(1000).attr("r", size); 
-//		size = $("#id6").attr(cases);
-//		d3.select("#id6").transition().duration(1000).attr("r", size); 
-//	    size = $("#id5").attr(cases);
-//		d3.select("#id5").transition().duration(1000).attr("r", size); 
-//	    size = $("#id4").attr(cases);
-//		d3.select("#id4").transition().duration(1000).attr("r", size); 
-//	    size = $("#id3").attr(cases);
-//		d3.select("#id3").transition().duration(1000).attr("r", size); 
-//	    size = $("#id2").attr(cases);
-//		d3.select("#id2").transition().duration(1000).attr("r", size); 
-//		size = $("#id1").attr(cases);
-//		d3.select("#id1").transition().duration(1000).attr("r", size); 	
-//		
-//		d3.layout.pack()
-//
-//
-//	}
-//
-//
-//	function showCases() {
-//		var cases = "cases"; 
-//		var size = ($("#id7").attr(cases) / 33025) * 250;
-//		console.log("New size " + size); 
-//		d3.select("#id7").transition().duration(1000).attr("r", size); 
-//		size = ($("#id6").attr(cases) / 33025) * 250;
-//		d3.select("#id6").transition().duration(1000).attr("r", size); 
-//		size = ($("#id5").attr(cases) / 33025) * 250;
-//		d3.select("#id5").transition().duration(1000).attr("r", size); 
-//		size = ($("#id4").attr(cases) / 33025) * 250;
-//		d3.select("#id4").transition().duration(1000).attr("r", size); 
-//		size = ($("#id3").attr(cases) / 33025) * 250;
-//		d3.select("#id3").transition().duration(1000).attr("r", size); 
-//		size = ($("#id2").attr(cases) / 33025) * 250;
-//		d3.select("#id2").transition().duration(1000).attr("r", size); 
-//		size = ($("#id1").attr(cases) / 33025) * 250;
-//		d3.select("#id1").transition().duration(1000).attr("r", size); 
-//		
-//	}
-	
-function showEthnicities(div, file) {
+        d3.select("#legend").selectAll("svg").remove();
+        var legend = d3.select("#legend").append("svg")
+        .attr("width", 225)
+        .attr("height", 200)
+        .append("g");
+        var yPos = 25;
+        for (var i = 0; i <= fill.quantiles().length; i++) {
+            var valueForLegendSquare;
+            var endValueForLegendSquare;
+            if (i == 0) {
+                valueForLegendSquare = 0;
+                endValueForLegendSquare = fill.quantiles()[i] - 0.1;
+            } else if (i == fill.quantiles().length) {
+                valueForLegendSquare = fill.quantiles()[i - 1];
+                endValueForLegendSquare = 215;
+            } else {
+                valueForLegendSquare = fill.quantiles()[i - 1];
+                endValueForLegendSquare = fill.quantiles()[i] - 0.1;
+            }
+            legend.append("rect")
+            .attr("x", 0)
+            .attr("width", 20)
+            .attr("y", yPos)
+            .attr("height", 20)
+            .attr("fill", function(d) { return fill(valueForLegendSquare); });
+            legend.append("text")
+            .attr("x", 25)
+            .attr("y", yPos + 15)
+            .style("text-anchor", "beginning")
+            .text(valueForLegendSquare + " - " + endValueForLegendSquare + " cases per 100,000");
+            yPos += 25;
+        }
+    }
+    
+}	
+function showAges() {
+	$("#popA").css("background-color", "#FEE5D9"); 
 	var width = 600,
-		height = 600,
-	    format = d3.format(",d"),
-	    color = d3.scale.category10();
+    height = 600,
+    format = d3.format(",d"),
+    color = d3.scale.category20();
 	
 	var bubble = d3.layout.pack()
-	    .sort(null)
-	    .size([width, height])
-	    .padding(10);
+    .sort(null)
+    .size([width, height])
+    .padding(10);
 	
-	var svg = d3.select(div).append("svg")
-	    .attr("width", width)
-	    .attr("height", height)
-	    .attr("class", "bubble");
-	    
+	var svg = d3.select("#ageBubbles").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "bubble");
+    
 	
-	d3.json(file, function(root) {
-	  var arrP = bubble.nodes(classesPop(root));
-	  var arrC = bubble.nodes(classesCases(root)); 
-	  var node = svg.selectAll(".node")
-	      .data(bubble.nodes(classesPop(root))
-	      .filter(function(d) { return !d.children; }))
+	d3.json("flare.json", function(root) {
+        var arrP = bubble.nodes(classesPop(root));
+        var arrC = bubble.nodes(classesCases(root)); 
+        var node = svg.selectAll(".node")
+        .data(bubble.nodes(classesPop(root))
+              .filter(function(d) { return !d.children; }))
 	    .enter().append("g")
-	      .attr("class", "node")
-	      .attr("transform", function(d, i) { return "translate(" + d.x + "," + d.y + ")"; });
-	console.log("START~~~~~~~~");
-
-	 d3.selectAll("button").on("click", function change() {
-	 	var stringCircle = div + " circle"; 
-	 	var stringText = div + " text"; 
-	 	console.log(this.value + " HERE! " + "String circle: " + stringCircle); 
-	 	if (this.value == "cases") {
-		 	d3.selectAll(stringCircle).transition().duration(1500)
+        .attr("class", "node")
+        .attr("transform", function(d, i) { return "translate(" + d.x + "," + d.y + ")"; });
+        
+        d3.selectAll(".agesButt").on("click", function change() {
+            if (this.value == "cases") {
+                d3.selectAll("#ageBubbles circle").transition().duration(1500)
 		 		.attr("r", function(d,i) {return arrC[i+1].r})
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
-		 	d3.selectAll(stringText).transition().duration(1500)
+                d3.selectAll("#ageBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
-	      }
-	      else {
-		 	d3.selectAll(stringCircle).transition().duration(1500)
+                document.getElementById("agesTitle").innerHTML = "New HIV/AIDS diagnoses in 2010, by age group"; 
+                $("#popA").css("background-color", "#FB6A4A"); 
+                $("#casesA").css("background-color", "#FEE5D9"); 
+            }
+            else {
+                d3.selectAll("#ageBubbles circle").transition().duration(1500)
 		 		.attr("r", function(d,i) {return arrP[i+1].r})
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
-		 	d3.selectAll(stringText).transition().duration(1500)
+                d3.selectAll("#ageBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
-
-	      }
-
-	      
-	      
-	      
-	      }
-	      
-	      );
-	
-	  node.append("title")
-	      .text(function(d) { return d.className + ": " + format(d.value); });
-	
-	  node.append("circle")
-	      .attr("r", function(d) { return d.r; })
-	      .style("fill", function(d) { return color(d.className); })
-	      .attr("pop", function(d) { return d.r; })
-	      .attr("cases", function(d) {return d.cases; })
-	      .attr("id", function(d) {return d.id});
-	  node.append("text")
-	      .attr("dy", ".1em")
-	      .style("text-anchor", "middle")
-	      .text(function(d) { return d.className; });
-	      
-
-
-
+                document.getElementById("agesTitle").innerHTML = "American population distribution in 2010";
+                $("#casesA").css("background-color", "#FB6A4A"); 
+                $("#popA").css("background-color", "#FEE5D9"); 
+            }
+        }
+                                       
+                                       );
+        
+        node.append("title")
+        .text(function(d) { return d.className + ": " + format(d.value); });
+        
+        node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function(d) { return color(d.className); })
+        .attr("pop", function(d) { return d.r; })
+        .attr("cases", function(d) {return d.cases; })
+        .attr("id", function(d) {return d.id});
+        node.append("text")
+        .attr("dy", ".1em")
+        .style("text-anchor", "middle")
+        .text(function(d) { return d.className; });
+        
+        
+        
+        
 	});
 	
 	// Returns a flattened hierarchy containing all leaf nodes under the root.
 	function classesCases(root) {
-	  var classes = [];
-	
-	  function recurse(name, node) {
-	    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-	    else classes.push({packageName: name, className: node.name, value: node.size});
-	  }
-	
-	  recurse(null, root);
-	  return {children: classes};
+        var classes = [];
+        
+        function recurse(name, node) {
+            if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+            else classes.push({packageName: name, className: node.name, value: node.size});
+        }
+        
+        recurse(null, root);
+        return {children: classes};
 	}
 	
 	function classesPop(root) {
-	  var classes = [];
-	
-	  function recurse(name, node) {
-	    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-	    else classes.push({packageName: name, className: node.name, value: node.pop});
-	  }
-	
-	  recurse(null, root);
-	  return {children: classes};
+        var classes = [];
+        
+        function recurse(name, node) {
+            if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+            else classes.push({packageName: name, className: node.name, value: node.pop});
+        }
+        
+        recurse(null, root);
+        return {children: classes};
 	}
 	
 	d3.select(self.frameElement).style("height", height + "px");
 }
 
+
+function showEthnicities() {
+		$("#popE").css("background-color", "#FEE5D9"); 
+
+	var width = 600,
+    height = 600,
+    format = d3.format(",d"),
+    color = d3.scale.category20();
+	
+	var bubble = d3.layout.pack()
+    .sort(null)
+    .size([width, height])
+    .padding(10);
+	
+	var svg = d3.select("#ethBubbles").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "bubble");
+    
+	
+	d3.json("flareEth.json", function(root) {
+        var arrP = bubble.nodes(classesPop(root));
+        var arrC = bubble.nodes(classesCases(root)); 
+        var node = svg.selectAll(".node")
+        .data(bubble.nodes(classesPop(root))
+              .filter(function(d) { return !d.children; }))
+	    .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d, i) { return "translate(" + d.x + "," + d.y + ")"; });
+        
+        d3.selectAll(".ethButt").on("click", function change() {
+
+            if (this.value == "cases") {
+                d3.selectAll("#ethBubbles circle").transition().duration(1500)
+		 		.attr("r", function(d,i) {return arrC[i+1].r})
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
+                d3.selectAll("#ethBubbles text").transition().duration(1500)
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
+                document.getElementById("ethTitle").innerHTML = "New HIV/AIDS diagnoses in 2010, by ethnicity"; 
+                $("#popE").css("background-color", "#FB6A4A"); 
+                $("#casesE").css("background-color", "#FEE5D9"); 
+            }
+            else {
+                d3.selectAll("#ethBubbles circle").transition().duration(1500)
+		 		.attr("r", function(d,i) {return arrP[i+1].r})
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
+                d3.selectAll("#ethBubbles text").transition().duration(1500)
+		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
+                document.getElementById("ethTitle").innerHTML = "American population distribution in 2010"; 
+                $("#casesE").css("background-color", "#FB6A4A"); 
+                $("#popE").css("background-color", "#FEE5D9"); 
+
+            }
+            
+            
+        }
+                                 
+                                 );
+        
+        node.append("title")
+        .text(function(d) { return d.className + ": " + format(d.value); });
+        
+        node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function(d) { return color(d.className); })
+        .attr("pop", function(d) { return d.r; })
+        .attr("cases", function(d) {return d.cases; })
+        .attr("id", function(d) {return d.id});
+        node.append("text")
+        .attr("dy", ".1em")
+        .style("text-anchor", "middle")
+        .text(function(d) { return d.className; });
+        
+        
+        
+        
+	});
+	
+	// Returns a flattened hierarchy containing all leaf nodes under the root.
+	function classesCases(root) {
+        var classes = [];
+        
+        function recurse(name, node) {
+            if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+            else classes.push({packageName: name, className: node.name, value: node.size});
+        }
+        
+        recurse(null, root);
+        return {children: classes};
+	}
+	
+	function classesPop(root) {
+        var classes = [];
+        
+        function recurse(name, node) {
+            if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+            else classes.push({packageName: name, className: node.name, value: node.pop});
+        }
+        
+        recurse(null, root);
+        return {children: classes};
+	}
+	
+	d3.select(self.frameElement).style("height", height + "px");
+}
+
+
+
+
 function showTreemap() {
-var margin = {top: 40, right: 10, bottom: 10, left: 10},
+	$("#casesSexy").css("background-color", "#FEE5D9"); 
+
+    var margin = {top: 40, right: 10, bottom: 10, left: 10},
     width = 700 - margin.left - margin.right,
-    height = 350 - margin.top - margin.bottom;
-
-var color = d3.scale.category20c();
-
-var treemap = d3.layout.treemap()
+    height = 375 - margin.top - margin.bottom;
+    
+    var color = d3.scale.category20c();
+    
+    var treemap = d3.layout.treemap()
     .size([width, height])
     .sticky(true)
     .value(function(d) { return d.size; });
-
-var div = d3.select("#sexytree").append("div")
+    
+    var div = d3.select("#sexytree").append("div")
     .style("position", "relative")
     .style("width", (width + margin.left + margin.right) + "px")
     .style("height", (height + margin.top + margin.bottom) + "px")
     .style("left", margin.left + "px")
     .style("top", margin.top + "px");
+    
+    d3.json("sexy.json", function(root) {
+        var node = div.datum(root).selectAll(".node")
+        .data(treemap.nodes)
+        .enter().append("div")
+        .attr("class", "node")
+        .call(position)
+        .style("background", function(d) { return d.children ? color(d.name) : null; })
+        .text(function(d) { return d.children ? null : d.name; });
+        
+        d3.selectAll("input").on("click", function change() {
+            var value = this.value === "equal distribution"
+            ? function() { 
+            	$("#casesSexy").css("background-color", "#FB6A4A"); 
+                $("#equalSexy").css("background-color", "#FEE5D9"); 
 
-d3.json("sexy.json", function(root) {
-  var node = div.datum(root).selectAll(".node")
-      .data(treemap.nodes)
-    .enter().append("div")
-      .attr("class", "node")
-      .call(position)
-      .style("background", function(d) { return d.children ? color(d.name) : null; })
-      .text(function(d) { return d.children ? null : d.name; });
+         
+            	return 1; }
+            : function(d) { 
+            	$("#equalSexy").css("background-color", "#FB6A4A"); 
+                $("#casesSexy").css("background-color", "#FEE5D9"); 
 
-  d3.selectAll("input").on("click", function change() {
-    var value = this.value === "equal distribution"
-        ? function() { return 1; }
-        : function(d) { return d.size; };
-
-    node
-        .data(treemap.value(value).nodes)
-      .transition()
-        .duration(1500)
-        .call(position);
-  });
-});
-
-function position() {
-  this.style("left", function(d) { return d.x + "px"; })
-      .style("top", function(d) { return d.y + "px"; })
-      .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-      .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+            	return d.size; };
+            
+            node
+            .data(treemap.value(value).nodes)
+            .transition()
+            .duration(1500)
+            .call(position);
+        });
+    });
+    
+    function position() {
+        this.style("left", function(d) { return d.x + "px"; })
+        .style("top", function(d) { return d.y + "px"; })
+        .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+        .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+    }
+    displayLegend(); 
 }
 
-
-	
-}
-	
+function displayLegend() {
+     var legend = d3.select("#sexylegend").append("svg")
+     .attr("width", 320)
+     .attr("height", 150)
+     .append("g");
+     var yPos = 25;
+     
+     legend.append("rect")
+	     .attr("x", 0)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#6baed6"});
+     legend.append("text")
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Men, M-F contact");
+	     yPos += 25;
+     legend.append("rect")
+	     .attr("x", 0)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#aec7e8"});
+     legend.append("text")
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Men, M-M contact");
+	     yPos += 25;
+	     	     
+	 legend.append("rect")
+	     .attr("x", 150)
+	     .attr("width", 20)
+	     .attr("y", 25)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#fd8d3c"});
+     legend.append("text")
+	     .attr("x", 175)
+	     .attr("y", 25 + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Women, M-F Contact");
+	     yPos += 25;
+ }

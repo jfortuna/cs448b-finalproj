@@ -50,6 +50,10 @@ b {
 .citation {
 	font-size:10px; 	
 }
+
+rect:hover {
+	opacity:0.4; 	
+}
 </style> 
 </head>
 
@@ -102,7 +106,7 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 var color = d3.scale.ordinal()
-    .range(["#0000FF", "#FF69B4"]);
+    .range(["#807DBA", "#EF3B2C"]);
 
 var xAxis = d3.svg.axis()
     .scale(x0)
