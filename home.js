@@ -123,7 +123,6 @@ function showMap() {
         .data(json.features)
         .enter().append("path")
         .attr("d", path)
-        .on("click", click)
         .on('mousemove', mousemove)
         .on('mouseout', mouseout)
         .attr("fill", function(d) { 
@@ -227,7 +226,7 @@ function showMap() {
     
 }	
 function showAges() {
-	$("#popA").css("background-color", "#FEE5D9"); 
+	$("#casesA").css("background-color", "#FEE5D9"); 
 	var width = 600,
     height = 600,
     format = d3.format(",d"),
@@ -242,13 +241,13 @@ function showAges() {
     .attr("width", width)
     .attr("height", height)
     .attr("class", "bubble");
-    
+        
 	
 	d3.json("flare.json", function(root) {
         var arrP = bubble.nodes(classesPop(root));
         var arrC = bubble.nodes(classesCases(root)); 
         var node = svg.selectAll(".node")
-        .data(bubble.nodes(classesPop(root))
+        .data(bubble.nodes(classesCases(root))
               .filter(function(d) { return !d.children; }))
 	    .enter().append("g")
         .attr("class", "node")
@@ -277,11 +276,8 @@ function showAges() {
             }
         }
                                        
-                                       );
-        
-        node.append("title")
-        .text(function(d) { return d.className + ": " + format(d.value); });
-        
+		);
+		
         node.append("circle")
         .attr("r", function(d) { return d.r; })
         .style("fill", function(d) { return color(d.className); })
@@ -293,8 +289,17 @@ function showAges() {
         .style("text-anchor", "middle")
         .text(function(d) { return d.className; });
         
+    	d3.selectAll("#ageBubbles circle, #ageBubbles text").on("mousemove", function(d) {
+    		nvtooltip.cleanup(); 
+			var event = d3.event; 
+			var d = this.__data__; 
+			console.log(d); 
+	    	nvtooltip.show([event.pageX, event.pageY], "<p>Age range: <b>"+ d.className +"</b></p>" + "<p>" + d.value + " cases</p>");
+		});     
         
-        
+       d3.selectAll("#ageBubbles circle").on("mouseout", function(d) {
+    		nvtooltip.cleanup(); 
+		});     
         
 	});
 	
@@ -328,7 +333,8 @@ function showAges() {
 
 
 function showEthnicities() {
-		$("#popE").css("background-color", "#FEE5D9"); 
+	ethLegend(); 
+		$("#casesE").css("background-color", "#FEE5D9"); 
 
 	var width = 600,
     height = 600,
@@ -350,7 +356,7 @@ function showEthnicities() {
         var arrP = bubble.nodes(classesPop(root));
         var arrC = bubble.nodes(classesCases(root)); 
         var node = svg.selectAll(".node")
-        .data(bubble.nodes(classesPop(root))
+        .data(bubble.nodes(classesCases(root))
               .filter(function(d) { return !d.children; }))
 	    .enter().append("g")
         .attr("class", "node")
@@ -383,10 +389,10 @@ function showEthnicities() {
             
         }
                                  
-                                 );
-        
-        node.append("title")
-        .text(function(d) { return d.className + ": " + format(d.value); });
+		);
+		
+  
+		
         
         node.append("circle")
         .attr("r", function(d) { return d.r; })
@@ -398,7 +404,17 @@ function showEthnicities() {
         .attr("dy", ".1em")
         .style("text-anchor", "middle")
         .text(function(d) { return d.className; });
+        	d3.selectAll("#ethBubbles circle, #ethBubbles text").on("mousemove", function(d) {
+    		nvtooltip.cleanup(); 
+			console.log(d); 
+			var event = d3.event; 
+			var d = this.__data__; 
+	    	nvtooltip.show([event.pageX, event.pageY], "<p>Race/ethnicity: <b>"+ d.className +"</b></p>" + "<p>" + d.value + " cases</p>");
+		});     
         
+       d3.selectAll("#ethBubbles circle").on("mouseout", function(d) {
+    		nvtooltip.cleanup(); 
+		}); 
         
         
         
@@ -496,10 +512,10 @@ function showTreemap() {
     displayLegend(); 
 }
 
-function displayLegend() {
-     var legend = d3.select("#sexylegend").append("svg")
-     .attr("width", 320)
-     .attr("height", 150)
+function ethLegend() {
+     var legend = d3.select("#ethLegend").append("svg")
+     .attr("width", 500)
+     .attr("height", 500)
      .append("g");
      var yPos = 25;
      
@@ -508,36 +524,91 @@ function displayLegend() {
 	     .attr("width", 20)
 	     .attr("y", yPos)
 	     .attr("height", 20)
-	     .attr("fill", function(d) { return "#6baed6"});
+	     .attr("fill", function(d) { return "#1f77b4"});
      legend.append("text")
 	     .attr("x", 25)
 	     .attr("y", yPos + 15)
 	     .style("text-anchor", "beginning")
-	     .text("Men, M-F contact");
+	     .text("Black/African-American");
 	     yPos += 25;
+	     
      legend.append("rect")
 	     .attr("x", 0)
 	     .attr("width", 20)
 	     .attr("y", yPos)
 	     .attr("height", 20)
-	     .attr("fill", function(d) { return "#aec7e8"});
+	     .attr("fill", function(d) { return "#ff7f0e"});
      legend.append("text")
 	     .attr("x", 25)
 	     .attr("y", yPos + 15)
 	     .style("text-anchor", "beginning")
-	     .text("Men, M-M contact");
+	     .text("White");
 	     yPos += 25;
-	     	     
-	 legend.append("rect")
-	     .attr("x", 150)
+	     
+     legend.append("rect")
+	     .attr("x", 0)
 	     .attr("width", 20)
-	     .attr("y", 25)
+	     .attr("y", yPos)
 	     .attr("height", 20)
-	     .attr("fill", function(d) { return "#fd8d3c"});
+	     .attr("fill", function(d) { return "#2ca02c"});
      legend.append("text")
-	     .attr("x", 175)
-	     .attr("y", 25 + 15)
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
 	     .style("text-anchor", "beginning")
-	     .text("Women, M-F Contact");
+	     .text("American Indian/Alaska Native");
+	     yPos += 25;   
+	     
+     legend.append("rect")
+	     .attr("x", 0)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#d62728"});
+     legend.append("text")
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Asian");
 	     yPos += 25;
- }
+	     
+	 xPos = 240; 
+	 yPos = 25; 
+     legend.append("rect")
+	     .attr("x", xPos)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#aec7e8"});
+     legend.append("text")
+	     .attr("x", xPos + 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Hispanic/Latino");
+	     yPos += 25;
+	     
+     legend.append("rect")
+	     .attr("x", xPos)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#ffbb78"});
+     legend.append("text")
+	     .attr("x", xPos + 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Multiple races");
+	     yPos += 25;
+	     
+     legend.append("rect")
+	     .attr("x", xPos)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#98df8a"});
+     legend.append("text")
+	     .attr("x", xPos + 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("Hawaiian/Other Pacific Islander");
+	     yPos += 25;	     
+}
