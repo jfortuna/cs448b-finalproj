@@ -25,6 +25,9 @@
 td img:hover {
 	border:2px solid black; 	
 }
+.nvtooltip {
+	font-size:15px; 	
+}
 .segment {
 	background-color: #F8F8F8; 	
 	height:400px; 
@@ -35,6 +38,11 @@ td img:hover {
 	width:420px; 	
 }
 
+.mapfactoids {
+	width:350px; 
+	margin:auto; 	
+}
+
 #ageBubbles, #ethBubbles {
 	margin-top:-50px; 	
 }
@@ -43,8 +51,11 @@ td img:hover {
 	height:500px; 	
 }
 
+#sexyExp {
+	margin-top:100px; 	
+}
 #orientations {
-	height:500px; 	
+	height:530px; 	
 }
 button, #orientations input {
 	font-size:30px;
@@ -65,6 +76,10 @@ text {
 	font-size:15px; 	
 }
 
+text:hover {
+	cursor:default; 	
+}
+
 .headline {
 	width:100%: 
 	height:60px; 
@@ -77,6 +92,9 @@ text {
 	height:625px;	
 }
 
+#ethLegend {
+	margin-top:-20px; 	
+}
 #ethnicity, #ages {
 	height: 650px; 	
 }
@@ -86,11 +104,12 @@ text {
 }
 
 #sexylegend {
-	margin-top: 10px; 	
+	margin-left:500px; 
+	margin-top:-15px; 
 }
-
-#sexytree {
-	margin-top:-30px; 	
+#sexypie {
+	margin-left:-70px; 
+	margin-top:-50px; 	
 }
 
 .details {
@@ -170,6 +189,10 @@ td {
 	width:200px; 
 	position:relative; 	
 	bottom:200px; 
+}
+
+#legend {
+	font-size:8px; 	
 }
 
 #totalCases {
@@ -311,7 +334,7 @@ svg {
 			</div> 
 		</div> 
 		<div class="right-side" id="country-details">
-		<p id="agesTitle" class="details"> American population distribution in 2010 </p>   
+		<p id="agesTitle" class="details"> New HIV/AIDS diagnoses in 2010, by age group </p>   
 		<div id = "ageBubbles"> </div>  
 		</div>
 	</div> 
@@ -320,17 +343,21 @@ svg {
 	<div class="segment even" id = "orientations">
 		<div class = "headline"> ...and sexual orientations...</div> 
 		<div class="left-side"> 
-			<p class="details"> New cases in the United States for the CDC's high risk groups, 2009 <br> Groups subdivided by ethnicity </p> 
+			<p class="details"> New cases in the US by gender, transmission category (2010) </p>
+						<div id="sexylegend"> </div>
 
-			<div id = "sexytree"> </div>
+			<div id = "sexypie"> </div>
+			<p class="details" id = "sexyExp"> Males, 33198 new cases from sexual contact in 2010 </p> 
 		</div> 
 		<div class="right-side" id="country-details">  
-			<p class = "details"> Use the buttons to proportion the tree by </p>
-			<form>
-			  <input type="button" name="mode" value="cases per group" id = "casesSexy" checked>
-			  <input type="button" name="mode" value="equal distribution" id = "equalSexy">
-			</form>
+			<p class = "details"> Use the buttons to proportion view the chart for</p>
+	<form>
+  <label><input type="button" name="dataset" class="sexybutton" id="sexybuttonM" value="males" checked> </label>
+  <label><input type="button" name="dataset" class="sexybutton" id="sexybuttonF" value="females"> </label>
+</form>
  			<div id = "sexylegend"> </div>
+			<p class = "details"> pie sized by proportion of cases </p>
+	
 			<div class = "factoids"> 
 			<p class = "statement"> at a glance </p> 
 				<p class = "details"> In 2009, MSM constituted 61% of new HIV/AIDS cases. But, the disease is certainly <i> NOT </i> limited to this population. </p>   
@@ -354,10 +381,12 @@ svg {
 				<br>
 				<br> By proportion, African-Americans are most severly affected by HIV/AIDS. <br> 
 				 <br> </p> 
+				 
+				 <div id="ethLegend"> </div> 
 			</div> 
 		</div> 
 		<div class="right-side" id="country-details" >  
-			<p id = "ethTitle" class = "details"> American Population Distribution in 2010 </p> 
+			<p id = "ethTitle" class = "details"> New HIV/AIDS diagnoses in 2010, by ethnicity </p> 
 			<div id = "ethBubbles"> </div>
 		</div>
 	</div> 
@@ -374,8 +403,8 @@ svg {
 			<div id = "slider"> </div> 
 		</div> 
 		<div class="right-side" id="country-details">  
-			<p class = "details">use the map to explore state-by-state trends from 2000 - 2010</p> 
-			<div class = "factoids"> 
+			<p class = "details">move the slider to explore state-by-state trends from 2000 - 2010</p> 
+			<div class = "mapfactoids"> 
 			<p class = "statement"> at a glance </p> 
 				<p class = "details"> HIV/AIDS cases tend to be clustered around urban areas <br><br> 
 				As of 2009, the South had the highest concentration of people living with HIV/AIDS <br> </p> 
@@ -403,7 +432,7 @@ svg {
 
 			<p> &nbsp; </p> 
 			<p> &nbsp; </p> <p> &nbsp; </p>
-			<button id = "enterbutton"> <a href="http://www.google.com">Meet Americans living with HIV/AIDS</a> </button> 
+			<button id = "enterbutton"> <a href="aids.html">Meet Americans living with HIV/AIDS</a> </button> 
 
 	</div> 
 	
@@ -452,7 +481,7 @@ showEthnicities();
 startWorldCircles(); 
 startUSCircles(); 
 showPie(); 
-showTreemap(); 
+showSexyPie(); 
 showMap(); 
 </script> 
 

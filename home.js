@@ -57,7 +57,7 @@ function showMap() {
 		var event = d3.event; 
 		var d = this.__data__; 
 		var selectedBar = d3.select(this).select("rect");
-		var content = "<p> <b>" + d.properties.name + "</b></p> <p> " + getPercentForYearForState(d.properties.name, year) + " cases per 100,000</p>"; 
+		var content = "<p> <b>" + d.properties.name + "</b></p> <p> " + getPercentForYearForState(d.properties.name, year) + " cases per 100k</p>"; 
 	    if (!isZoomed) nvtooltip.show([event.pageX, event.pageY], content);
 	}
 	
@@ -219,7 +219,7 @@ function showMap() {
             .attr("x", 25)
             .attr("y", yPos + 15)
             .style("text-anchor", "beginning")
-            .text(valueForLegendSquare + " - " + endValueForLegendSquare + " cases per 100,000");
+            .text(valueForLegendSquare + " - " + endValueForLegendSquare + " cases per 100k");
             yPos += 25;
         }
     }
