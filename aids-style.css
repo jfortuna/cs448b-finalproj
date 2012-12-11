@@ -4,38 +4,33 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, figure, form, fi
 	padding: 0;
 }
 body {
-    font-family: Helvetica, Arial, sans-serif;
+    background-color: white;
+    font-family: 'Raleway', sans-serif;
 }
 h1 {
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 3.0em;
 }
 h2 {
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 1.5em;
 }
 p { line-height: 1.4em; margin-bottom: 1.0em; }
 a { color: #821122; }
+
+.headline {
+	width:100%: 
+	height:60px; 
+	color:white; 
+	background-color:#989898 ;
+}
 #content {
-    width: 925px;
-    margin: 0 auto;
+    position: absolute;
+    width: 90%;
+    left: 5%;
 }
 #filters {
-    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
     margin-bottom: 20px;
 }
-#filters a {
-    color: #000;
-    font-size: 12px;
-    padding: 5px;
-    background: #e2e2e2;
-    cursor: pointer;
-    margin-right: 3px;
-}
-#filters a:last-child {
-    margin-right: 0;
-}
-#filters a { background: #895881; color: #fff; }
 
 #vis {
     min-height: 500px;
@@ -46,25 +41,29 @@ a { color: #821122; }
     min-height: 500px;
     float: right;
 }
-#blurb {
-    height: 60px;
-    border-top: 1px solid #e2e2e2;
-    padding-top: 20px;
+#stories .name {
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 path {
     stroke: #a3a3a3;
     stroke-width: 0.9px;
-    stroke-opacity: 0.15;
+    stroke-opacity: 0.1;
 	fill: none;
 }
 path.current, path.highlight.current {
-    stroke: #d62728;
+    stroke: #CB181D;
     stroke-width: 1.7px;
     stroke-opacity: 1;
 }
 .highlight {
-    stroke: #895881;
+    stroke: #FB6A4A;
+    stroke-opacity: 1;
+    stroke-width: 1px;
+}
+.selected {
+    stroke: #FB6A4A;
     stroke-opacity: 1;
     stroke-width: 1px;
 }
@@ -88,6 +87,18 @@ text {
 #cite { font-size: 0.8em; text-align: right; margin-top:10px; padding-bottom: 20px; }
 #cite a { background: #e2e2e2; text-decoration: none; color: #821122; }
 
+table.border { 
+    border-collapse:collapse; 
+}
+table.border td {
+    border-top: solid 1px #a3a3a3;
+    border-bottom: solid 1px #a3a3a3;
+    padding:5px; 
+}
+
+table.paddedtable td {
+    padding-right:20px;
+}
 
 #profile {
     width: 500px;

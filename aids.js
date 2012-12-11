@@ -1,12 +1,13 @@
 var regions = { "SAS": "South Asia" , "ECS": "Europe and Central Asia", "MEA": "Middle East & North Africa", "SSF": "Sub-Saharan Africa", "LCN": "Latin America & Caribbean", "EAS": "East Asia &amp; Pacific", "NAC": "North America" },
-	w = 600,
-	h = 400,
+	w = 800,
+	h = 500,
 	margin = 30,
 	startYear = 2000, 
 	endYear = 2011,
 	startAge = 0.00001,
-	endAge = 0.009,
-	y = d3.scale.log().clamp(true).domain([endAge, startAge]).range([0 + margin, h - margin]).nice(),
+	endAge = 0.01,
+	y = d3.scale.log().clamp(true).domain([endAge, startAge]).range([0 + margin, h - margin]),
+	//y = d3.scale.linear().clamp(true).domain([endAge, startAge]).range([0 + margin, h - margin]),
 	x = d3.scale.linear().domain([2000, 2010]).range([0 + margin -5, w]),
 	years = d3.range(startYear, endYear);
 
@@ -32,13 +33,17 @@ var countries_regions = {};
     }
 });*/
 
+var raceClass = {"All races/ethnicities": "allraces", "American Indian/Alaska Native": "indian", "Asian": "asian", "Black/African American": "black", "Hispanic/Latino": "hispanic", "Multiple races": "multipleraces", "Native Hawaiian/Other Pacific Islander": "hawaiian", "White": "white"};
+var sexClass = {"Both sexes": "bothsexes", "Male": "male", "Female": "female"};
+var ageClass = {"Adults and adolescents": "allages", "13-24": "age1324", "25-34": "age2534", "35-44": "age3544", "45-54": "age4554", "55+": "age55"};
+var stateClass = {"Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Deleware": "DE", "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS", "Missouri": "MO", "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH", "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Rhode Island": "RI", "South Carolina": "SC", "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX", "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA", "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY"};
 var startEnd = {},
     countryCodes = {};
-d3.text('clean-data/AIDS-diagnoses-allDemographics.csv', 'text/csv', function(text) {
+d3.text('clean-data/AIDS-data.csv', 'text/csv', function(text) {
     var states = d3.csv.parseRows(text);
     
     for (i=1; i < states.length; i++) {
-        var values = states[i].slice(5, states[i.length-1]);
+        var values = states[i].slice(4, states[i.length-1]);
         var currData = [];
         countryCodes[states[i][1]] = states[i][0];
         
@@ -46,33 +51,32 @@ d3.text('clean-data/AIDS-diagnoses-allDemographics.csv', 'text/csv', function(te
         for (j=0; j < values.length; j++) {
             if (values[j] != '') {
                 currData.push({ x: years[j], y: values[j] });
+                var uniqueId = stateClass[states[i][0]] + " " + raceClass[states[i][1]] + " " + sexClass[states[i][2]] + " " + ageClass[states[i][3]];
                 if (!started) {
-                    startEnd[states[i][0]] = { 'startYear':years[j], 'startVal':values[j] };
+                    startEnd[uniqueId] = { 'startYear':years[j], 'startVal':values[j] };
                     started = true;
                 } else if (j == values.length-1) {
-                    startEnd[states[i][0]]['endYear'] = years[j];
-                    startEnd[states[i][0]]['endVal'] = values[j];
+                    startEnd[uniqueId]['endYear'] = years[j];
+                    startEnd[uniqueId]['endVal'] = values[j];
                 }
             }
         }
-        var raceClass = {"All races/ethnicities": "allraces", "American Indian/Alaska Native": "indian", "Asian": "asian", "Black/African American": "black", "Hispanic/Latino": "hispanic", "Multiple races": "multipleraces", "Native Hawaiian/Other Pacific Islander": "hawaiian", "White": "white"};
-        var sexClass = {"Both sexes": "bothsexes", "Male": "male", "Female": "female"};
         vis.append("svg:path")
             .data([currData])
             .attr("state", states[i][0])
             .attr("race", states[i][1])
             .attr("sex", states[i][2])
             .attr("age", states[i][3])
-            .attr("class", states[i][0] + " " + raceClass[states[i][1]] + " " + sexClass[states[i][2]] + " " + states[i][3])
+            .attr("class", stateClass[states[i][0]] + " " + raceClass[states[i][1]] + " " + sexClass[states[i][2]] + " " + ageClass[states[i][3]])
             .attr("d", line)
-            //.attr("stroke", "black")
-            //.attr("fill","none")
-            //.attr("stroke-width", 1)
             .on("mouseover", onmouseover)
             .on("mouseout", onmouseout);
+            //.on("click", onclick);
     }
 });  
-    
+
+var formatPercent = d3.format(".4d");
+  
 vis.append("svg:line")
     .attr("x1", x(2000))
     .attr("y1", y(startAge))
@@ -86,7 +90,8 @@ vis.append("svg:line")
     .attr("x2", x(startYear))
     .attr("y2", y(endAge))
     .attr("class", "axis")
-			
+
+//console.log(x.ticks(10))			
 vis.selectAll(".xLabel")
     .data(x.ticks(5))
     .enter().append("svg:text")
@@ -96,8 +101,9 @@ vis.selectAll(".xLabel")
     .attr("y", h-10)
     .attr("text-anchor", "middle")
 
+var yticks = [0.00001, 0.00005, 0.0001, 0.0005, 0.001, 0.005, 0.01];
 vis.selectAll(".yLabel")
-    .data(y.ticks(4))
+    .data(yticks)
     .enter().append("svg:text")
     .attr("class", "yLabel")
     .text(String)
@@ -116,11 +122,11 @@ vis.selectAll(".xTicks")
     .attr("y2", y(startAge)+7)
 	
 vis.selectAll(".yTicks")
-    .data(y.ticks(4))
+    .data(y.ticks())
     .enter().append("svg:line")
     .attr("class", "yTicks")
     .attr("y1", function(d) { return y(d); })
-    .attr("x1", x(1999.5))
+    .attr("x1", x(1999.9))
     .attr("y2", function(d) { return y(d); })
     .attr("x2", x(2000))
 
@@ -130,7 +136,68 @@ d3.selection.prototype.moveToFront = function() {
     }); 
 };
 
+
+function tabulate(data, columns) {
+    $("#stories").empty();
+    var table = d3.select("#stories").append("table").attr("class", "border").attr("style", "width:300px;"),
+        tbody = table.append("tbody");
+
+    // create a row for each object in the data
+    var rows = tbody.selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr")
+        .on("click", onTableClick);
+
+    // create a cell in each row for each column
+    var cells = rows.selectAll("td")
+        .data(function(row) {
+            return columns.map(function(column) {
+                if (column == 'Picture') {
+                    var value = '<img src="' + row[column] + '" />';
+                    return {column: column, value: value};
+                }
+                if (column == 'Name') {
+                    var value = '<p class="name">' + row[column] + '</p>';
+                    return {column: column, value: value};
+                }
+                return {column: column, value: row[column]};
+            });
+        })
+        .enter()
+        .append("td")
+            .html(function(d) { return d.value; });
+    return table;
+}
+
+var filters = {};
+d3.csv('clean-data/AIDS-stories.csv', passToTable);
+function passToTable(data) {
+    data = data.filter(function(row) {
+        // run through all the filters, returning a boolean
+        return ['State','Race','Sex','Age'].reduce(function(pass, column) {
+            return pass && (
+                // pass if no filter is set
+                !filters[column] ||
+                // pass if the row's value is equal to the filter
+                // (i.e. the filter is set to a string)
+                row[column] === filters[column] ||
+                // pass if the row's value is in an array of filter values
+                filters[column].indexOf(row[column]) >= 0
+            );
+        }, true);
+    })
+    var storiesTable = tabulate(data, ["Picture", "Name"]);   
+}
+
+function onTableClick(d, i) {
+    console.log(d);
+    var popupStory = "<div id=\"main-wrapper\"><div id=\"profile\"><div id=\"profile-pic\"><img src=\"" + d.Picture + "\" /></div><div id=\"basic-info\"><h1 id=\"name\">" + d.Name + "</h1><h3 id=\"location\">" + d.State + "</h3><h3 id=\"sex\">" + d.Sex + "</h3><h3 id=\"race\">" + d.Race + "</h3><h3 id=\"age\">" + d.Age + "</h3></div><div style=\"clear: both;\"></div><div id=\"story\"><p>" + d.Story + "</p></div></div></div>";
+    $.colorbox({html:popupStory});
+}
+
 function onclick(d, i) {
+    console.log('clicked path');
     var currClass = d3.select(this).attr("class");
     if (d3.select(this).classed('selected')) {
         d3.select(this).attr("class", currClass.substring(0, currClass.length-9));
@@ -149,10 +216,17 @@ function onmouseover(d, i) {
     var race = $(this).attr("race");
     var sex = $(this).attr("sex");
     var age = $(this).attr("age");
-    var stateVals = startEnd[state];
+    var uniqueId = $(this).attr("class");
+    if (uniqueId.indexOf("current") != -1) {
+        uniqueId = uniqueId.slice(0, -" current".length);
+    }
+    if (uniqueId.indexOf("highlight") != -1) {
+        uniqueId = uniqueId.slice(0, -" highlight".length);
+    }
+    var stateVals = startEnd[uniqueId];
     var percentChange = Math.round((stateVals['endVal'] - stateVals['startVal']) * 1000000) / 1000000;
     
-    var blurb = '<h2>' + state + ' ' + race + ' ' + sex + ' ' + age + '</h2>';
+    var blurb = '<h2>' + state + ' &bull; ' + sex + ' &bull; ' + race + ' &bull; ' + age + '</h2>';
     blurb += "<p>On average: an AIDS diagnosis rate of " + stateVals['startVal'] + "% in " + stateVals['startYear'] + " and " + stateVals['endVal'] + "% in " + stateVals['endYear'] + ", ";
     if (percentChange >= 0) {
         blurb += "an increase of " + percentChange + "%"
@@ -174,11 +248,40 @@ function onmouseout(d, i) {
     $("#blurb-content").html('');
 }
 
-function showRegion(regionCode) {
-    var states = d3.selectAll("path."+regionCode).moveToFront();
-    if (states.classed('highlight')) {
-        states.attr("class", regionCode);
-    } else {
-        states.classed('highlight', true);
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
     }
+  }
+  return this;
+};
+
+var dataNameFromClass = {"allraces": "All races/ethnicities", "indian": "American Indian/Alaska Native", "asian": "Asian", "black": "Black/African American", "hispanic": "Hispanic/Latino", "multipleraces": "Multiple races", "hawaiian": "Native Hawaiian/Other Pacific Islander", "white": "White", "bothsexes": "Both sexes", "male": "Male", "female": "Female", "allages": "Adults and adolescents", "age1324": "13-24", "age2534": "25-34", "age3544": "35-44", "age4554": "45-54", "age55": "55+", "AL": "Alabama", "AK":"Alaska", "AZ":"Arizona", "AR":"Arkansas", "CA": "California", "CO": "Colorado", "CT":"Connecticut", "DE":"Deleware", "DC":"District of Columbia", "FL":"Florida", "GA":"Georgia", "HI":"Hawaii", "ID":"Idaho", "IL":"Illinois", "IN":"Indiana", "IA":"Iowa", "KS":"Kansas", "KY":"Kentucky", "LA":"Louisiana", "ME":"Maine", "MD":"Maryland", "MA":"Massachusetts", "MI":"Michigan", "MN":"Minnesota", "MS":"Mississippi", "MO":"Missouri", "MT":"Montana", "NE":"Nebraska", "NV":"Nevada", "NH":"New Hampshire", "NJ": "New Jersey", "NM":"New Mexico", "NY":"New York", "NC":"North Carolina", "ND":"North Dakota", "OH":"Ohio", "OK":"Oklahoma", "OR":"Oregon", "PA":"Pennsylvania", "RI":"Rhode Island", "SC":"South Carolina", "SD": "South Dakota", "TN":"Tennessee", "TX":"Texas", "UT":"Utah", "VT":"Vermont", "VA":"Virginia", "WA":"Washington", "WV":"West Virginia", "WI": "Wisconsin", "WY": "Wyoming", "allstates": "All states"};
+var dataCategoryFromName = {"All races/ethnicities": "Race", "American Indian/Alaska Native": "Race", "Asian": "Race", "Black/African American": "Race", "Hispanic/Latino": "Race", "Multiple races": "Race", "Native Hawaiian/Other Pacific Islander": "Race", "White": "Race", "Both sexes": "Sex", "Male": "Sex", "Female": "Sex", "Adults and adolescents": "Age", "13-24": "Age", "25-34": "Age", "35-44": "Age", "45-54": "Age", "55+": "Age", "Alabama": "State", "Alaska": "State", "Arizona": "State", "Arkansas": "State", "California": "State", "Colorado": "State", "Connecticut": "State", "Deleware": "State", "District of Columbia": "State", "Florida": "State", "Georgia": "State", "Hawaii": "State", "Idaho": "State", "Illinois": "State", "Indiana": "State", "Iowa": "State", "Kansas": "State", "Kentucky": "State", "Louisiana": "State", "Maine": "State", "Maryland": "State", "Massachusetts": "State", "Michigan": "State", "Minnesota": "State", "Mississippi": "State", "Missouri": "State", "Montana": "State", "Nebraska": "State", "Nevada": "State", "New Hampshire": "State", "New Jersey": "State", "New Mexico": "State", "New York": "State", "North Carolina": "State", "North Dakota": "State", "Ohio": "State", "Oklahoma": "State", "Oregon": "State", "Pennsylvania": "State", "Rhode Island": "State", "South Carolina": "State", "South Dakota": "State", "Tennessee": "State", "Texas": "State", "Utah": "UT", "Vermont": "State", "Virginia": "State", "Washington": "State", "West Virginia": "State", "Wisconsin": "State", "Wyoming": "State", "All states": "State"};
+function showRegion(regionCode) {
+    console.log(regionCode);
+    var selectedCategories = regionCode.split(".").clean("");
+    console.log(selectedCategories);
+    filters = {};
+    for (var i = 0; i < selectedCategories.length; i++) {
+        if (selectedCategories[i] != "allraces" && selectedCategories[i] != "bothsexes" && selectedCategories[i] != "allages" && selectedCategories[i] != "allstates") {
+            var dataName = dataNameFromClass[selectedCategories[i]];
+            var dataCategory = dataCategoryFromName[dataName];
+            filters[dataCategory] = dataName;
+        }
+    }
+    console.log(filters);
+    d3.csv('clean-data/AIDS-stories.csv', passToTable);
+    
+    var region = regionCode;
+    if (region.indexOf(".allstates") != -1) {
+        region = region.slice(0, -".allstates".length);
+    }
+    d3.selectAll("path.highlight").classed('highlight', false);
+    var selectedStates = d3.selectAll("path"+region).moveToFront();
+    console.log(region);
+    console.log(d3.selectAll("path"+region));
+    selectedStates.classed('highlight', true);
 }
