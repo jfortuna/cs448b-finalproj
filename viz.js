@@ -29,7 +29,6 @@ function showPie() {
 	  var g = svg.selectAll(".arc")
 	      .data(pie(data))
 	    .enter().append("g")
-	      .attr("id", "cats")
 	      .attr("class", "arc");
 	
 	  g.append("path")
@@ -117,7 +116,7 @@ function worldTimer(svg)
     	.style("fill", "#FB6A4A");
     xlocationWorld += 8; 
     worldCounter++; 
-    if (worldCounter % 150 == 0) {
+    if (worldCounter % 140 == 0) {
     	cyWorld += 10; 	
     	xlocationWorld=90; 
     }
@@ -142,7 +141,7 @@ function usTimer(svg)
     	.style("fill", "#CB181D");
     xlocationUS += 8; 
     counter++; 
-    if (counter == 150) {
+    if (counter == 140) {
     	cy+= 10; 
     	xlocationUS = 90;
     	counter = 0;  
@@ -155,4 +154,121 @@ function startUSCircles() {
 	}
 	var myVar=setInterval(function(){usTimer(svg)},5*60000);
 }
+function showSexyPie() {
+	displayLegend("M-M contact");
+		$("#sexybuttonM").css("background-color", "#FEE5D9");
+	var dataset = {
+  males: [28782, 4416], //33198
+  females: [0, 8459]  //8459
+};
+
+var width = 800,
+    height = 350,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.category10();
+
+var pie = d3.layout.pie()
+    .sort(null);
+
+var arcf = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(radius/2 - 20);
+
+var arc = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(radius - 20);
+    
+var svg = d3.select("#sexypie").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+var path = svg.selectAll("path")
+    .data(pie(dataset.males))
+  .enter().append("path")
+    .attr("fill", function(d, i) { return color(i); })
+    .attr("d", arc)
+    .attr("class", "segment")
+    .each(function(d) { this._current = d; }); // store the initial values
+    
+
+d3.selectAll(".sexybutton").on("click", change);
+
+function change() {
+  path = path.data(pie(dataset[this.value])); // update the data
+  if (this.value == "females") {
+		$("#sexybuttonM").css("background-color", "#FB6A4A"); 
+		$("#sexybuttonF").css("background-color", "#FEE5D9");
+		  path.transition().duration(1000).attrTween("d", arcTweenf); // redraw the arcs
+		  document.getElementById("sexyExp").innerHTML = "Females, 8459 new cases from sexual contact in 2010"; 
+		  $("#sexylegend").empty(); 
+		  displayLegend("F-F contact"); 
+
+  }
+  else {
+  		$("#sexybuttonF").css("background-color", "#FB6A4A"); 
+		$("#sexybuttonM").css("background-color", "#FEE5D9");
+		path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
+		document.getElementById("sexyExp").innerHTML = "Males, 33198 new cases from sexual contact in 2010";
+		$("#sexylegend").empty(); 
+		displayLegend("M-M contact"); 
+  }
+}
+
+function arcTween(a) {
+  var i = d3.interpolate(this._current, a);
+  this._current = i(0);
+  return function(t) {
+    return arc(i(t));
+  };
+}
+
+function arcTweenf(a) {
+  var i = d3.interpolate(this._current, a);
+  this._current = i(0);
+  return function(t) {
+    return arcf(i(t));
+  };
+}
+}
+
+function displayLegend(label) {
+     var legend = d3.select("#sexylegend").append("svg")
+     .attr("width", 320)
+     .attr("height", 150)
+     .append("g");
+     var yPos = 25;
+     
+     legend.append("rect")
+	     .attr("x", 0)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#1f77b4"});
+     legend.append("text")
+     	 .attr("id", "samesexlabel")
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text(label);
+	     yPos += 25;
+	     
+     legend.append("rect")
+	     .attr("x", 0)
+	     .attr("width", 20)
+	     .attr("y", yPos)
+	     .attr("height", 20)
+	     .attr("fill", function(d) { return "#ff7f0e"});
+     legend.append("text")
+	     .attr("x", 25)
+	     .attr("y", yPos + 15)
+	     .style("text-anchor", "beginning")
+	     .text("M-F contact");
+	     yPos += 25;
+   
+	     
+}
+
 

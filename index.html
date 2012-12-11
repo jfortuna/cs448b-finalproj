@@ -2,58 +2,485 @@
 <html>
 <head>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<title> HIV: stories + data </title> 
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/d3.v2.min.js?2.9.6"></script>
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-<script src="nvtooltip.js"></script>
 
+<script src="http://d3js.org/d3.v2.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+
+<script src="nvtooltip.js"></script>
+<script src="viz.js"></script>
+<script src="home.js"></script>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
 <link rel="stylesheet" href="d3.css">
 <link rel="stylesheet" type="text/css" href="style.css">
 
-<script src="index.js" type="text/javascript"></script>
+<style> 
 
-<script>
-$(function() {
-    $( "#slider" ).slider();
-});
-</script>
+td img:hover {
+	border:2px solid black; 	
+}
+.nvtooltip {
+	font-size:15px; 	
+}
+.segment {
+	background-color: #F8F8F8; 	
+	height:400px; 
+	width:100%; 
+}
+.factoids {
+	margin:auto; 
+	width:420px; 	
+}
 
+.mapfactoids {
+	width:350px; 
+	margin:auto; 	
+}
+
+#ageBubbles, #ethBubbles {
+	margin-top:-50px; 	
+}
+
+#prop-americans {
+	height:500px; 	
+}
+
+#sexyExp {
+	margin-top:100px; 	
+}
+#orientations {
+	height:530px; 	
+}
+button, #orientations input {
+	font-size:30px;
+	background-color:#FB6A4A; 
+	font-family: 'Raleway', sans-serif;
+	padding:10px; 
+	margin:-2px; 
+}
+input:hover {
+	cursor:pointer; 	
+}
+
+button:hover {
+	cursor:pointer; 	
+}
+
+text {
+	font-size:15px; 	
+}
+
+text:hover {
+	cursor:default; 	
+}
+
+.headline {
+	width:100%: 
+	height:60px; 
+	font-size:50px; 
+	color:white; 
+	background-color:#989898 ;
+}
+
+#mapSegment {
+	height:625px;	
+}
+
+#ethLegend {
+	margin-top:-20px; 	
+}
+#ethnicity, #ages {
+	height: 650px; 	
+}
+
+#bubbles {
+	margin-top:-50px; 	
+}
+
+#sexylegend {
+	margin-left:500px; 
+	margin-top:-15px; 
+}
+#sexypie {
+	margin-left:-70px; 
+	margin-top:-50px; 	
+}
+
+.details {
+	font-size:20px; 
+}
+
+.statement {
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+.prev {
+	color:#CB181D;	
+	font-size:60px; 
+}
+
+h1 {
+	margin-bottom:30px; 	
+}
+
+#instructions {
+	margin-bottom:20px;	
+}
+
+#counter {
+	height:900px; 	
+}
+
+#us-circles {
+	height:300px; 	
+}
+
+.left-side {
+	text-align: center; 
+	float:left; 
+	width:50%;
+}
+
+.right-side {
+	text-align: center; 
+	float:right; 
+	width:50%; 
+}
+
+img {
+	width:150px; 
+}
+
+td {
+	padding:10px; 	
+}
+
+#enterbutton{
+	background-color:#FB6A4A; 
+	color:white; 
+	font-size:30px; 
+	width:600px;
+	padding:10px;  
+	margin-left:auto; 
+	margin-right:auto; 
+	
+}
+#enterbutton a:visited {
+	color:white; 	
+}
+#enterbutton a:link {
+	color:white; 
+	text-decoration:none; 
+}
+#enterbutton:hover {
+	border: 3px solid black; 	
+}
+
+
+#legend {
+	left:570px; 
+	width:200px; 
+	position:relative; 	
+	bottom:200px; 
+}
+
+#totalCases {
+	font-size:30px;
+	color:grey; 
+	margin-top:-50px; 
+}
+
+svg {
+	margin-bottom:-100px;  	
+}
+
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+.nvtooltip {
+	font-family: 'Raleway', sans-serif;
+}
+
+#treemap {
+	padding-left: 25px; 
+	margin-top: -50px; 	
+}
+
+#world-circles {
+	margin-top:-250px; 	
+}
+#world {
+	color:#FB6A4A;
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+#country {
+	color:#CB181D;
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+.down img {
+	-webkit-transform:rotate(-90deg);
+	width:50px; 
+	height:150px; 
+	margin-top:-50px; 
+	opacity:0.5; 
+}
+
+.down img:hover {
+	cursor:pointer; 
+	opacity:1.0; 	
+}
+.down {
+	height:300px; 
+}
+
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+
+.land {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.state {
+  fill: #ccc;
+  stroke: #666;
+}
+
+</style> 
 </head>
 
 <body>
+<script> 
+
+</script>
 
 <div id = "center"> 
-	<div id = "header">
-		&nbsp;  
+	<h1>hiv<span id = "name">aids</span> </h1> 
+	<div id = "instructions">stories + data = understanding</div> 
+	
+	<div class="segment even" id = "hoversegment"> 
+	<div class="headline"> HIV/AIDS is a worldwide problem... </div> 
+		<div class="left-side"> 
+			<p class = "details"> People all over the world are affected, and in some countries the HIV/AIDS prevalence rate is >20%</p> 
+			
+			<table align="center"> 
+			<tr> 
+			<td align="center" id="botswana"> <img src="botswana" alt="some_text"></td>
+			<td align="center" id="unitedstates"> <img src="unitedstates" alt="some_text"></td>
+			<td align="center" id="switzerland"> <img src="switzerland" alt="some_text"></td>
+			<td align="center" id="thailand"> <img src="thailand" alt="some_text"></td>
+			</tr> 
+			</table> 
+		</div> 
+		<div class="right-side" id="country-details"> <p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p class = "details"> Hover over the maps to see more details</p> 
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#prop-americans")></div>
+
+	<div class="segment even" id="prop-americans"> 
+	<div class="headline" > ... and the United States is certainly not exempt. </div> 
+		<div class="left-side"> 
+			<p class="details"> Proportion of Americans living with HIV/AIDS, 2010 </p>
+			<div id = "pie"> &nbsp </div>
+			<div id = "pieLegend"> &nbsp </div>
+		</div> 
+		<div class="right-side" id="country-details">  
+			<p class = "details">60 out of every 100,000 Americans are living with HIV/AIDS</p> 
+			<p class = "statement"> That's 1.1 million people </p> 
+			<p class = "details"> <b> 1 in 5</b> don't even know they're carrying the disease </p>
+			<br> 
+			<p class="details"> "Our country is at a crossroads.  Right now, we are experiencing a domestic epidemic that demands a renewed commitment, increased public attention, and leadership" <i> --President Barack Obama, 2010 </i>
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#ages")></div>
+	
+	<div class="segment even" id="ages"> 
+	<div class="headline"> HIV/AIDS affects Americans of all ages... </div> 
+		<div class="left-side"> 
+			<p class="details"> use the buttons to filter by </p> 
+			  <button name="mode" value="cases" class = "agesButt" id = "casesA"> cases per group </button> 
+			  <button name="mode" value="pop" class = "agesButt" id = "popA"> population </button> 
+			<br> <br> 
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> Most cases of HIV/AIDS in children are the result of perinatal transmission <br><br> If a mother's HIV/AIDS is caught early in the pregnancy, risk of transmission can be decreased with zidovudine<br> 
+				 <br> </p> 
+			</div> 
+		</div> 
+		<div class="right-side" id="country-details">
+		<p id="agesTitle" class="details"> New HIV/AIDS diagnoses in 2010, by age group </p>   
+		<div id = "ageBubbles"> </div>  
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#orientations")></div>
+	
+	<div class="segment even" id = "orientations">
+		<div class = "headline"> ...and sexual orientations...</div> 
+		<div class="left-side"> 
+			<p class="details"> New cases in the US by gender, transmission category (2010) </p>
+						<div id="sexylegend"> </div>
+
+			<div id = "sexypie"> </div>
+			<p class="details" id = "sexyExp"> Males, 33198 new cases from sexual contact in 2010 </p> 
+		</div> 
+		<div class="right-side" id="country-details">  
+			<p class = "details"> Use the buttons to proportion view the chart for</p>
+	<form>
+  <label><input type="button" name="dataset" class="sexybutton" id="sexybuttonM" value="males" checked> </label>
+  <label><input type="button" name="dataset" class="sexybutton" id="sexybuttonF" value="females"> </label>
+</form>
+ 			<div id = "sexylegend"> </div>
+			<p class = "details"> pie sized by proportion of cases </p>
+	
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> In 2009, MSM constituted 61% of new HIV/AIDS cases. But, the disease is certainly <i> NOT </i> limited to this population. </p>   
+				 <br> </p> 
+			</div> 
+
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#ethnicity")></div>
+	
+	<div class="segment even" id="ethnicity" id = "ethnicitySegment">
+		<div class = "headline"> ...and ethnicities...</div> 
+		<div class="left-side"> 
+			<p class = "details">Explore groups affected by HIV/AIDS. Toggle proportions below.</p> 
+			<button type="button" value = "cases" class = "ethButt" id = "casesE">cases per group</button>
+			<button type="button" value = "pop" class = "ethButt" id = "popE">population</button>
+			<div class = "factoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> 
+				Young, black MSM were the only risk group in the U.S. to experience statistically significant increases in new HIV infections from 2006-2009: from 4,400 new HIV infections in 2006 to 6,500 infections in 2009.(Aids.gov) 
+				<br>
+				<br> By proportion, African-Americans are most severly affected by HIV/AIDS. <br> 
+				 <br> </p> 
+				 
+				 <div id="ethLegend"> </div> 
+			</div> 
+		</div> 
+		<div class="right-side" id="country-details" >  
+			<p id = "ethTitle" class = "details"> New HIV/AIDS diagnoses in 2010, by ethnicity </p> 
+			<div id = "ethBubbles"> </div>
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#map")></div>
+
+	<div class="segment even" id = "mapSegment" id = "map"> 
+		<div class = "headline"> ...and locations. </div> 
+		<div class="left-side"> 
+			<p class="details"> HIV/AIDS cases by state, 2000 - 2010 </p> 
+			<div id = "map"> &nbsp; </div>
+			<div id = "legend"> &nbsp </div>
+			<div id = "totalCases"> </div>
+			<div id = "year"> 2000 </div> 
+			<div id = "slider"> </div> 
+		</div> 
+		<div class="right-side" id="country-details">  
+			<p class = "details">move the slider to explore state-by-state trends from 2000 - 2010</p> 
+			<div class = "mapfactoids"> 
+			<p class = "statement"> at a glance </p> 
+				<p class = "details"> HIV/AIDS cases tend to be clustered around urban areas <br><br> 
+				As of 2009, the South had the highest concentration of people living with HIV/AIDS <br> </p> 
+			</div> 
+			
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#counter")></div>
+
+	
+	<div class="segment even" id="counter"> 
+			<div class = "headline"> HIV/AIDS is affecting people right now. </div> 
+
+			<p> &nbsp; </p> 
+			<p class = "details">The dots below represent the number of people in the<span id="country"> country</span> and the<span id="world"> world</span> who have contracted HIV/AIDS <b>today</b>`. 
+			<div id = "us-circles"></div>  
+			<div id = "world-circles"> </div>
+			</p> 	
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#enterdiv")></div>
+
+
+	<div class="segment even" id="enterdiv"> 
+			<div class = "headline"> These aren't just statistics. These are people. </div> 
+
+			<p> &nbsp; </p> 
+			<p> &nbsp; </p> <p> &nbsp; </p>
+			<button id = "enterbutton"> <a href="aids.html">Meet Americans living with HIV/AIDS</a> </button> 
+
 	</div> 
 	
-	<div id = "statistics"> 
-		<p> <div id = "countries"><b>166</b> countries </div> 
-		<div id = "people"> <b>32</b> million people worldwide </div> 
-		<div id = "us"> <b>1.2</b> million in the US </div> 
-		<div id = "disease">  <b>1</b> killer </div> 
-		<div id = "middle"> <div id = "inner"> &nbsp </div> </div> 
- 	</div> 
-	
-	<div id = "instructions"></div> 
-	<div id = "donutMap"> </div> 
-	<div id = "map"> &nbsp; </div> 
-	<div id = "totalCases"> &nbsp; </div> 
-	<div id = "controls"> <div id = "year"> 2000 </div> <div id="slider"></div></div> 
+<p>Map images & frequency estimates courtesy of CIA world FactBook, for 2009</p>
+<p>Data & factoids courtesy CDC: http://www.cdc.gov/hiv/topics/surveillance/basic.htm, AIDS.gov </p>
+<p>World infection rate provided by avert.org </p> 
+<p>US population ethnicity data provided by the US Census Bureau</p>
 </div> 
 
+<script> 
 
+$('#botswana').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Botswana </p><p class='prev'> 24.80%</p><p>prevalence rate</p>"; 
+}); 
 
-<div id = "forward"> 
-	<a href="#" onclick="nextSlide()">
-		<img src="rightarrow_b.png" alt="right arrow">
-	</a>
-</div> 
+$('#switzerland').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Switzerland </p><p class='prev'> 0.40%</p><p>prevalence rate</p>"; 
+}); 
+
+$('#unitedstates').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> United States </p><p class='prev'> 0.60%</p><p>prevalence rate</p>"; 
+}); 
+
+$('#thailand').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Thailand </p><p class='prev'> 1.30%</p><p>prevalence rate</p>"; 
+}); 
+
+$("#hoversegment").mouseout(function() {
+	document.getElementById("country-details").innerHTML = "<p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p class = \"details\"> Hover over the maps to see more details</p> "; 
+}); 
+
+function scrollTo(hash) {
+   var top = $(hash).offset().top - 50;
+   $('html,body').animate({scrollTop: top}, 1000);
+}
+    $(function() {
+        $( "#slider" ).slider();
+    });
+    
+     $(function() {
+        $( "#radioAges" ).buttonset();
+    });
+
+showAges(); 
+showEthnicities(); 
+startWorldCircles(); 
+startUSCircles(); 
+showPie(); 
+showSexyPie(); 
+showMap(); 
+</script> 
+
 
 </body>
 </html>
