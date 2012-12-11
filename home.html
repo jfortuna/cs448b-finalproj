@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v2.min.js?2.9.6"></script>
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="nvtooltip.js"></script>
+
+<link rel="stylesheet" href="d3.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script src="home.js" type="text/javascript"></script>
+<script src = "viz.js" type="text/javascript"></script>
+
+<script>
+$(function() {
+    $( "#slider" ).slider();
+});
+</script>
+<style> 
+.segment {
+	background-color: #F8F8F8; 	
+	height:450px; 
+	width:100%; 
+}
+
+#mapSegment {
+	height:625px;	
+}
+
+.headline {
+	width:100%; 
+	height:70px; 
+	background-color:#99000D; 
+	color:white; 
+	font-size:60px; 	
+}
+
+.details {
+	font-size:20px; 
+}
+
+.statement {
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+.prev {
+	color:#CB181D;	
+	font-size:60px; 
+}
+
+h1 {
+	margin-bottom:30px; 	
+}
+
+#instructions {
+	margin-bottom:20px;	
+}
+
+.left-side {
+	text-align: center; 
+	float:left; 
+	width:50%;
+}
+
+.right-side {
+	text-align: center; 
+	float:right; 
+	width:50%; 
+}
+
+img {
+	width:100px; 
+}
+
+td {
+	padding:10px; 	
+}
+
+#enterbutton{
+	background-color:#FB6A4A; 
+	color:white; 
+	font-size:30px; 
+	width:100px;
+	padding:10px;  
+	margin-left:auto; 
+	margin-right:auto; 
+}
+#enterbutton a:visited {
+	color:white; 	
+}
+#enterbutton a:link {
+	color:white; 
+}
+
+#legend {
+	left:650px; 
+	width:200px; 
+	position:relative; 	
+	bottom:200px; 
+}
+
+#totalCases {
+	font-size:30px;
+	color:grey; 
+	top:100px; 
+}
+
+svg {
+	margin-bottom:-100px;  	
+}
+
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+.nvtooltip {
+	font-family: 'Raleway', sans-serif;
+}
+
+#treemap {
+	padding-left: 25px; 
+	margin-top: -50px; 	
+}
+
+#world-circles {
+	margin-top:-250px; 	
+}
+#world {
+	color:#FB6A4A;
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+#country {
+	color:#CB181D;
+	font-size:30px; 
+	font-weight:bold; 
+}
+
+.down img {
+	-webkit-transform:rotate(-90deg);
+	width:50px; 
+	height:150px; 
+	margin-top:-50px; 
+	opacity:0.5; 
+}
+
+.down img:hover {
+	cursor:pointer; 	
+}
+.down {
+	height:300px; 
+}
+</style> 
+
+</head>
+
+<body>
+
+<div id = "center"> 
+	<h1>hiv<span id = "name">aids</span> </h1> 
+	<div id = "instructions">stories + data = understanding</div> 
+	
+	<div class="segment even"> 
+		<div class = "headline"> HIV/AIDS </div>
+		<div class="left-side"> 
+			<p class = "details"> People all over the world are affected, and in some countries the HIV/AIDS prevalence rate is >20%</p> 
+			
+			<table align="center"> 
+			<tr> 
+			<td align="center" id="botswana"> <img src="botswana" alt="some_text"></td>
+			<td align="center" id="unitedstates"> <img src="unitedstates" alt="some_text"></td>
+			<td align="center" id="switzerland"> <img src="switzerland" alt="some_text"></td>
+			<td align="center" id="thailand"> <img src="thailand" alt="some_text"></td>
+			</tr> 
+			</table> 
+		</div> 
+		<div class="right-side" id="country-details"> <p>&nbsp; </p> <p>&nbsp; </p><p>&nbsp; </p><p>&nbsp; </p><p> Hover over the maps to see more details</p> 
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#prop-americans")></div>
+
+	<div class="segment even" id = "mapSegment" id = "map"> 
+		<div class="left-side"> 
+			<p class="details"> HIV/AIDS cases by state, 2000 - 2010 </p> 
+		</div> 
+		<div class="right-side" id="country-details">  
+			<p class = "statement"> ...and locations. </p> 
+			<p class = "details">use the map to explore state-by-state trends from 2000 - 2010</p> 
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#counter")></div>
+
+
+	<div id="tree"> </div>
+
+
+
+	<div class="segment even" id = "mapSegment" id = "map"> 
+		<div class="left-side"> 
+			<p class="details"> HIV/AIDS cases by state, 2000 - 2010 </p> 
+			<div id = "map"> &nbsp; </div>
+			<div id = "legend"> &nbsp </div>
+			<div id = "totalCases"> </div>
+			<div id = "controls"> <div id = "year"> 2000 </div> <div id="slider"></div></div> 
+		</div> 
+		<div class="right-side" id="country-details">  
+			<p class = "statement"> ...and locations. </p> 
+			<p class = "details">use the map to explore state-by-state trends from 2000 - 2010</p> 
+		</div>
+	</div> 
+	<div class="down"> <img class="down" src="leftarrow_b.png" alt="left" onclick=scrollTo("#counter")></div>
+
+
+
+</div> 
+
+<div id = "forward"> 
+</div> 
+<script>
+showTreemap("#tree");  
+
+$('#botswana').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Botswana </p><p class='prev'> 26.1%</p><p>prevalence rate</p>"; 
+}); 
+
+$('#switzerland').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Switzerland </p><p class='prev'> 0.60%</p><p>prevalence rate</p>"; 
+}); 
+
+$('#unitedstates').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> United States </p><p class='prev'> 0.60%</p><p>prevalence rate</p>"; 
+}); 
+
+$('#thailand').mouseover(function() {
+	document.getElementById("country-details").innerHTML = "<p class='statement'> Thailand </p><p class='prev'> 1.40%</p><p>prevalence rate</p>"; 
+}); 
+
+function scrollTo(hash) {
+   var top = $(hash).offset().top - 150;
+   $('html,body').animate({scrollTop: top}, 1000);
+}
+
+
+</script> 
+</body>
+</html>
+

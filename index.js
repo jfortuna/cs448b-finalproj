@@ -16,9 +16,10 @@ $(function() {
 });
 
 window.onload=function(){
-	$("#slider").hide(); 
-	$("#year").hide(); 
-	showStatistics(); 
+	showMap(); 
+//	$("#slider").hide(); 
+//	$("#year").hide(); 
+//	showStatistics(); 
 };
 
 function countriesStats() {
@@ -95,7 +96,7 @@ function showMap() {
 	var dataArray = new Array(); 
     var aidsData = new Array();
     
-    d3.csv("aidsdata", function(data) {
+    d3.csv("aidsdata", function(error, data) {
         data.forEach(function(d) { 
         	dataArray.push(d); 
         });
@@ -177,7 +178,7 @@ function showMap() {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .append("g")
     .attr("id", "states");
-    d3.json("readme.json", function(json) {
+    d3.json("readme.json", function(error, json) {
         g.selectAll("path")
         .data(json.features)
         .enter().append("path")
