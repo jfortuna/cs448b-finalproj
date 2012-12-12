@@ -156,7 +156,7 @@ function startUSCircles() {
 }
 function showSexyPie() {
 	displayLegend("M-M contact");
-		$("#sexybuttonM").css("background-color", "#FEE5D9");
+		$("#sexybuttonM").css("background-color", "#FB6A4A");
 	var dataset = {
   males: [28782, 4416], //33198
   females: [0, 8459]  //8459
@@ -199,8 +199,8 @@ d3.selectAll(".sexybutton").on("click", change);
 function change() {
   path = path.data(pie(dataset[this.value])); // update the data
   if (this.value == "females") {
-		$("#sexybuttonM").css("background-color", "#FB6A4A"); 
-		$("#sexybuttonF").css("background-color", "#FEE5D9");
+		$("#sexybuttonM").css("background-color", "#FEE5D9"); 
+		$("#sexybuttonF").css("background-color", "#FB6A4A");
 		  path.transition().duration(1000).attrTween("d", arcTweenf); // redraw the arcs
 		  document.getElementById("sexyExp").innerHTML = "Females, 8459 new cases from sexual contact in 2010"; 
 		  $("#sexylegend").empty(); 
@@ -208,8 +208,8 @@ function change() {
 
   }
   else {
-  		$("#sexybuttonF").css("background-color", "#FB6A4A"); 
-		$("#sexybuttonM").css("background-color", "#FEE5D9");
+  		$("#sexybuttonF").css("background-color", "#FEE5D9"); 
+		$("#sexybuttonM").css("background-color", "#FB6A4A");
 		path.transition().duration(1000).attrTween("d", arcTween); // redraw the arcs
 		document.getElementById("sexyExp").innerHTML = "Males, 33198 new cases from sexual contact in 2010";
 		$("#sexylegend").empty(); 

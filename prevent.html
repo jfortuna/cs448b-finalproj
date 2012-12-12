@@ -16,54 +16,71 @@
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script src="prevent.js" type="text/javascript"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style> 
+.x-axis text {
+	font-size:10px; 	
+}
+#graph-left {
+	width:50%; 
+	float: left; 	
+}
 
+#details-right {
+	width:49%; 
+	background:#F8F8F8; 
+	float:right; 	
+	height:400px; 
+	border: 0px solid black; 
+	margin-bottom:20px; 
+}
+
+.title {
+	font-size:20px; 
+	font-weight:bold; 
+}
+
+.stats {
+	font-style:italic; 
+}
+
+b {
+	color:#CB181D; 	
+}
+
+.citation {
+	font-size:10px; 	
+}
+
+rect:hover {
+	opacity:0.4; 	
+}
+</style> 
 </head>
 
 <body>
-
-<script> 
-$('#malecondom').hover(function() {
-  document.getElementById("details").innerHTML = "Male condom"; 
-});
-</script> 
 
 <div id = "center"> 
 
 	<h1>protect<span id = "name">yourself </span> </h1> 
 		
 	<div id = "instructions"> 
-			<p> Explore different contraceptive methods. </p> 
+			<p> Know the risks and protect yourself </p> 
 	</div> 
 	
-	<div id = "methods"> 
-		<table align = "center"> 
-		<tr> 
-			<td align = "center" id = "pullingout" class = "bad"> 
-				<p> pulling out </p> 
-			</td> 
-			
-			<td align = "center" id = "bcp" class = "bad"> 
-				<p> birth control pills </p> 
-			</td> 
-			
-			<td align = "center" id = "abstinence" class = "good"> 
-				<p> abstinence </p> 
-			</td> 
-		
-			<td align = "center" id = "femalecondom" class = "good"> 
-				<p> female condom </p> 
-			</td> 
-			
-			<td align = "center" id = "malecondom" class = "good"> 
-				<p> male condom </p> 
-			</td> 
-		</tr> 
-		</table> 
+	<div id = "graph-left"> 
+		New HIV cases in the US by transmission category, 2010
+						<p class = "citation"> Data from the US CDC, prevention tips from US CDC & MayoClinic </p> 
+
 	</div> 
-	<div id = "details"> 
-		&nbsp; 
+	<div id = "details-right"> 
+		<p> &nbsp; </p> 
+		<p> &nbsp; </p>  
+		<p> &nbsp; </p>  
+		<p> <b> Mouseover bars </b> to see how to reduce your risk for each cause of transmission. </p> 
 	</div> 
 </div> 
+
 <div id = "back"> 
 	<a href="index.html">
 		<img src="leftarrow_b.png" alt="left arrow">
@@ -76,48 +93,138 @@ $('#malecondom').hover(function() {
 		<img src="rightarrow_b.png" alt="right arrow">
 	</a>
 </div> 
-
-
 <script> 
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
-$('#malecondom').mouseover(function() {
-	var message = "When used correctly, the male condom is 98% effective at preventing sexually transmitted infections, including HIV/AIDS"; 
-	document.getElementById("details").innerHTML = "<h2><b> male condom </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
-	$("#malecondom p").css("opacity", 0.0); 
+var x0 = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var x1 = d3.scale.ordinal();
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.ordinal()
+    .range(["#807DBA", "#EF3B2C"]);
+
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format(".2s"));
+
+var svg = d3.select("#graph-left").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("bardata.csv", function(error, data) {
+  var ageNames = d3.keys(data[0]).filter(function(key) { return key !== "State"; });
+
+  data.forEach(function(d) {
+    d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
+  });
+
+  x0.domain(data.map(function(d) { return d.State; }));
+  x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
+  y.domain([0, d3.max(data, function(d) { return d3.max(d.ages, function(d) { return d.value; }); })]);
+
+
+  svg.append("g")
+      .attr("class", "x-axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 3)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Cases");
+
+  var state = svg.selectAll(".state")
+      .data(data)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("id", function(d) {return d.State; })
+      .attr("males", function(d) {return d.ages[0].value; })
+      .attr("females", function(d) {return d.ages[1].value; })
+      .attr("transform", function(d) { return "translate(" + x0(d.State) + ",0)"; });
+
+  state.selectAll("rect")
+      .data(function(d) { return d.ages; })
+    .enter().append("rect")
+      .attr("width", x1.rangeBand())
+      .attr("x", function(d) { return x1(d.name); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("value", function (d) {return d.value; })
+      .attr("height", function(d) { return height - y(d.value); })
+      .style("fill", function(d) { return color(d.name); });
+
+  var legend = svg.selectAll(".legend")
+      .data(ageNames.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+      
+  d3.selectAll("g.g")
+		.on("mouseover", mouseover);
+
 });
 
-$('#femalecondom').mouseover(function() {
-	var message = "When used correctly, the female condom is 98% effective at preventing sexually transmitted infections, including HIV/AIDS"; 
-	document.getElementById("details").innerHTML = "<h2><b> female condom </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
-	$("#femalecondom p").css("opacity", 0.0); 
-});
+function mouseover() {
+	var content = "<p class = \"title\">" + this.id + "</p><p>"  + "</p>";
+	document.getElementById("details-right").innerHTML = content; 
+	if (this.id == "Other") {
+		content = "<p class = \"title\">Other</p><p class = \"stats\">133 males, 127 females</p><p> HIV can be transmitted from mother to child during birth or when breastfeeding. Pregnant women who are HIV+ should: <p> <b> Avoid breastfeeding </b> </p> <p> <b> Seek treatment </b>immediately to lower the baby's risk of contracting HIV </p>"; 
+		document.getElementById("details-right").innerHTML = content; 
+	}
+	if (this.id == "M-M sexual contact") {
+		content = "<p class = \"title\">Male-to-Male Sexual Contact</p><p class = \"stats\">16796 males, 0 females</p><p> Safety tips: <p> Use a <b> new condom </b> each time you have sex </p> <p> <b> Consider abstaining </b>from sex </p> <p> <b>Talk </b> to partners about their HIV status </p> <p> <b> Get tested </b> regularly for HIV";
+		document.getElementById("details-right").innerHTML = content; 
+	}
+	if (this.id == "IV drug use") {
+		content = "<p class = \"title\">Injection Drug Use</p><p class = \"stats\">2745 males, 1752 females</p><p> Safety tips: <p> Use a <b> new needle </b> each time you inject </p> <p> Consider<b> seeking help </b>stopping drug use </p>"; 
+		document.getElementById("details-right").innerHTML = content; 
+	}
+	if (this.id == "M-M & IV") {
+		content = "<p class = \"title\">Male-to-Male Sexual Contact and IV Drug Use</p><p class = \"stats\">1443 males, 0 females</p><p> Safety tips: <p> Use a <b> new needle </b> each time you inject </p> <p> Consider<b> seeking help </b>stopping drug use </p> <p> Use a <b> new condom </b> each time you have sex </p> <p> <b> Consider abstaining </b>from sex </p> <p> <b>Talk </b> to partners about their HIV status </p> <p> <b> Get tested </b> regularly for HIV"; 
+		document.getElementById("details-right").innerHTML = content; 
+	}
+	if (this.id == "IV drug use") {
+		content = "<p class = \"title\">Injection Drug Use</p><p class = \"stats\">2745 males, 1752 females</p><p> Safety tips: <p> Use a <b> new needle </b> each time you inject </p> <p> Consider<b> seeking help </b>stopping drug use </p>"; 
+		document.getElementById("details-right").innerHTML = content; 
+	} 
+	if (this.id == "M-F sexual contact") {
+		content = "<p class = \"title\">Female-to-Male Sexual Contact</p><p class = \"stats\">4416 males, 8459 females</p><p> Safety tips: <p> Use a <b> new condom </b> each time you have sex </p> <p> <b> Consider abstaining </b>from sex </p> <p> <b>Talk </b> to partners about their HIV status </p> <p> <b> Get tested </b> regularly for HIV";
+		document.getElementById("details-right").innerHTML = content; 
+	} 
 
-$('#abstinence').mouseover(function() {
-	var message = "Abstinence from sex is the only way to prevent contracting HIV/AIDS through sexual contact"; 
-	document.getElementById("details").innerHTML = "<h2><b> abstinence </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
-	$("#abstinence p").css("opacity", 0.0); 
-
-});
-
-$('#bcp').mouseover(function() {
-	var message = "Birth Control pills do not protect against HIV/AIDS. They are moderately effective at preventing pregnancy when taken correctly."; 
-	document.getElementById("details").innerHTML = "<h2><b> birth control pills </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
-});
-
-$('#pullingout').mouseover(function() {
-	var message = "Pulling out does not protect against HIV/AIDS. It is moderately effective at preventing pregnancy when done correctly 100% of the time."; 
-	document.getElementById("details").innerHTML = "<h2><b> pulling out </b></h2> <p> <span id = \"extraDetails\"> " + message + " </span></p>"
-	$("#pullingout p").css("opacity", 0.0); 
-});
-
-$('td').mouseout(function() {
-	document.getElementById("details").innerHTML = " "
-	$("p").css("opacity", 1.0); 
-});
-
+}
 
 </script> 
-
 
 </body>
 </html>
