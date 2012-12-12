@@ -191,13 +191,11 @@ function passToTable(data) {
 }
 
 function onTableClick(d, i) {
-    console.log(d);
     var popupStory = "<div id=\"main-wrapper\"><div id=\"profile\"><div id=\"profile-pic\"><img src=\"" + d.Picture + "\" /></div><div id=\"basic-info\"><h1 id=\"name\">" + d.Name + "</h1><h3 id=\"location\">" + d.State + "</h3><h3 id=\"sex\">" + d.Sex + "</h3><h3 id=\"race\">" + d.Race + "</h3><h3 id=\"age\">" + d.Age + "</h3></div><div style=\"clear: both;\"></div><div id=\"story\"><p>" + d.Story + "</p></div></div></div>";
     $.colorbox({html:popupStory});
 }
 
 function onclick(d, i) {
-    console.log('clicked path');
     var currClass = d3.select(this).attr("class");
     if (d3.select(this).classed('selected')) {
         d3.select(this).attr("class", currClass.substring(0, currClass.length-9));
@@ -281,7 +279,5 @@ function showRegion(regionCode) {
     }
     d3.selectAll("path.highlight").classed('highlight', false);
     var selectedStates = d3.selectAll("path"+region).moveToFront();
-    console.log(region);
-    console.log(d3.selectAll("path"+region));
     selectedStates.classed('highlight', true);
 }
