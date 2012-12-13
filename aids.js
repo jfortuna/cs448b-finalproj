@@ -90,8 +90,7 @@ vis.append("svg:line")
     .attr("x2", x(startYear))
     .attr("y2", y(endAge))
     .attr("class", "axis")
-
-//console.log(x.ticks(10))			
+			
 vis.selectAll(".xLabel")
     .data(x.ticks(5))
     .enter().append("svg:text")
@@ -140,7 +139,7 @@ d3.selection.prototype.moveToFront = function() {
 function tabulate(data, columns) {
     $("#stories").empty();
     var table = d3.select("#stories").append("table").attr("class", "border").attr("style", "width:300px;"),
-        tbody = table.append("tbody");
+        tbody = table.append("tbody").attr("id", "storytbody");
 
     // create a row for each object in the data
     var rows = tbody.selectAll("tr")
@@ -167,6 +166,9 @@ function tabulate(data, columns) {
         .enter()
         .append("td")
             .html(function(d) { return d.value; });
+    if ($('#storytbody').children().length == 0) {
+        $('#stories').html("<h1>Sorry.</h1><p>We don't have any stories that fit this filter.</p>");
+    }
     return table;
 }
 
@@ -259,9 +261,7 @@ Array.prototype.clean = function(deleteValue) {
 var dataNameFromClass = {"allraces": "All races/ethnicities", "indian": "American Indian/Alaska Native", "asian": "Asian", "black": "Black/African American", "hispanic": "Hispanic/Latino", "multipleraces": "Multiple races", "hawaiian": "Native Hawaiian/Other Pacific Islander", "white": "White", "bothsexes": "Both sexes", "male": "Male", "female": "Female", "allages": "Adults and adolescents", "age1324": "13-24", "age2534": "25-34", "age3544": "35-44", "age4554": "45-54", "age55": "55+", "AL": "Alabama", "AK":"Alaska", "AZ":"Arizona", "AR":"Arkansas", "CA": "California", "CO": "Colorado", "CT":"Connecticut", "DE":"Deleware", "DC":"District of Columbia", "FL":"Florida", "GA":"Georgia", "HI":"Hawaii", "ID":"Idaho", "IL":"Illinois", "IN":"Indiana", "IA":"Iowa", "KS":"Kansas", "KY":"Kentucky", "LA":"Louisiana", "ME":"Maine", "MD":"Maryland", "MA":"Massachusetts", "MI":"Michigan", "MN":"Minnesota", "MS":"Mississippi", "MO":"Missouri", "MT":"Montana", "NE":"Nebraska", "NV":"Nevada", "NH":"New Hampshire", "NJ": "New Jersey", "NM":"New Mexico", "NY":"New York", "NC":"North Carolina", "ND":"North Dakota", "OH":"Ohio", "OK":"Oklahoma", "OR":"Oregon", "PA":"Pennsylvania", "RI":"Rhode Island", "SC":"South Carolina", "SD": "South Dakota", "TN":"Tennessee", "TX":"Texas", "UT":"Utah", "VT":"Vermont", "VA":"Virginia", "WA":"Washington", "WV":"West Virginia", "WI": "Wisconsin", "WY": "Wyoming", "allstates": "All states"};
 var dataCategoryFromName = {"All races/ethnicities": "Race", "American Indian/Alaska Native": "Race", "Asian": "Race", "Black/African American": "Race", "Hispanic/Latino": "Race", "Multiple races": "Race", "Native Hawaiian/Other Pacific Islander": "Race", "White": "Race", "Both sexes": "Sex", "Male": "Sex", "Female": "Sex", "Adults and adolescents": "Age", "13-24": "Age", "25-34": "Age", "35-44": "Age", "45-54": "Age", "55+": "Age", "Alabama": "State", "Alaska": "State", "Arizona": "State", "Arkansas": "State", "California": "State", "Colorado": "State", "Connecticut": "State", "Deleware": "State", "District of Columbia": "State", "Florida": "State", "Georgia": "State", "Hawaii": "State", "Idaho": "State", "Illinois": "State", "Indiana": "State", "Iowa": "State", "Kansas": "State", "Kentucky": "State", "Louisiana": "State", "Maine": "State", "Maryland": "State", "Massachusetts": "State", "Michigan": "State", "Minnesota": "State", "Mississippi": "State", "Missouri": "State", "Montana": "State", "Nebraska": "State", "Nevada": "State", "New Hampshire": "State", "New Jersey": "State", "New Mexico": "State", "New York": "State", "North Carolina": "State", "North Dakota": "State", "Ohio": "State", "Oklahoma": "State", "Oregon": "State", "Pennsylvania": "State", "Rhode Island": "State", "South Carolina": "State", "South Dakota": "State", "Tennessee": "State", "Texas": "State", "Utah": "UT", "Vermont": "State", "Virginia": "State", "Washington": "State", "West Virginia": "State", "Wisconsin": "State", "Wyoming": "State", "All states": "State"};
 function showRegion(regionCode) {
-    console.log(regionCode);
     var selectedCategories = regionCode.split(".").clean("");
-    console.log(selectedCategories);
     filters = {};
     for (var i = 0; i < selectedCategories.length; i++) {
         if (selectedCategories[i] != "allraces" && selectedCategories[i] != "bothsexes" && selectedCategories[i] != "allages" && selectedCategories[i] != "allstates") {
@@ -270,7 +270,6 @@ function showRegion(regionCode) {
             filters[dataCategory] = dataName;
         }
     }
-    console.log(filters);
     d3.csv('clean-data/AIDS-stories.csv', passToTable);
     
     var region = regionCode;
@@ -279,5 +278,8 @@ function showRegion(regionCode) {
     }
     d3.selectAll("path.highlight").classed('highlight', false);
     var selectedStates = d3.selectAll("path"+region).moveToFront();
+    if (selectedStates[0].length == 0) {
+        $.colorbox({html:"<h1>Sorry</h1><p>Due to privacy reasons, we are unable to show these results.</p><p>Try making your filter more general to see results.</p>"});
+    }
     selectedStates.classed('highlight', true);
 }
