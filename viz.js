@@ -109,6 +109,7 @@ var worldCounter = 0;
 var cyWorld = 100; 
 function worldTimer(svg)
 {
+	console.log("here"); 
 	svg.append("circle")
     	.attr("cy", cyWorld)
     	.attr("cx", xlocationWorld)
@@ -149,10 +150,10 @@ function usTimer(svg)
 }
 function startUSCircles() {
 	var svg = d3.select("#us-circles").append("svg");
-	for (var i = 0; i < hours*12; i++) {
+	for (var i = 0; i < hours*6.3; i++) {
 		usTimer(svg); 
 	}
-	var myVar=setInterval(function(){usTimer(svg)},5*60000);
+	var myVar=setInterval(function(){usTimer(svg)},9.5*60*1000);
 }
 function showSexyPie() {
 	displayLegend("M-M contact");

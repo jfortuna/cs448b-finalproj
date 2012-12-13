@@ -285,7 +285,7 @@ function showAges() {
 		    		nvtooltip.cleanup(); 
 					var event = d3.event; 
 					var d = this.__data__; 
-			    	nvtooltip.show([event.pageX, event.pageY], "<p>Age range: <b>"+ d.className +"</b></p>" + "<p>" + Math.ceil(100*d.pop/300000) + "% of the population</p>");
+			    	nvtooltip.show([event.pageX, event.pageY], "<p>Age range: <b>"+ d.className +"</b></p>" + "<p>" + Math.ceil(d.pop/1000) + " million people</p>");
 				});     
                         
                 
@@ -409,7 +409,7 @@ function showEthnicities() {
 			console.log(d); 
 			var event = d3.event; 
 			var d = this.__data__; 
-	    	nvtooltip.show([event.pageX, event.pageY], "<p>Race/ethnicity: <b>"+ d.className +"</b></p>" + "<p>" + d.pop + "% of population</p>");
+	    	nvtooltip.show([event.pageX, event.pageY], "<p>Race/ethnicity: <b>"+ d.className +"</b></p>" + "<p>" + Math.ceil(d.pop * 3.09) + " million people</p>");
 		});     
 
             }
@@ -481,7 +481,7 @@ function showEthnicities() {
 function ethLegend() {
      var legend = d3.select("#ethLegend").append("svg")
      .attr("width", 500)
-     .attr("height", 500)
+     .attr("height", 200)
      .append("g");
      var yPos = 25;
      

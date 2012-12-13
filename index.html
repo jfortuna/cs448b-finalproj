@@ -95,8 +95,12 @@ text:hover {
 #ethLegend {
 	margin-top:-20px; 	
 }
-#ethnicity, #ages {
+#ages {
 	height: 650px; 	
+}
+
+#ethnicity {
+	height:700px; 	
 }
 
 #bubbles {
@@ -139,6 +143,7 @@ h1 {
 }
 
 #us-circles {
+	margin-top:-50px; 
 	height:300px; 	
 }
 
@@ -166,7 +171,7 @@ td {
 	background-color:#FB6A4A; 
 	color:white; 
 	font-size:30px; 
-	width:600px;
+	width:700px;
 	padding:10px;  
 	margin-left:auto; 
 	margin-right:auto; 
@@ -419,7 +424,7 @@ svg {
 			<div class = "headline"> HIV/AIDS is affecting people right now. </div> 
 
 			<p> &nbsp; </p> 
-			<p class = "details">The dots below represent the number of people in the<span id="country"> country</span> and the<span id="world"> world</span> who have contracted HIV/AIDS <b>today</b>`. 
+			<p class = "details">Each dot represents a person in the <span id="country"> country</span> or the<span id="world"> world</span> who has contracted HIV/AIDS... <br> <b class="statement">TODAY</b>
 			<div id = "us-circles"></div>  
 			<div id = "world-circles"> </div>
 			</p> 	
@@ -432,14 +437,15 @@ svg {
 
 			<p> &nbsp; </p> 
 			<p> &nbsp; </p> <p> &nbsp; </p>
-			<button id = "enterbutton"> <a href="aids.html">Meet Americans living with HIV/AIDS</a> </button> 
+			<button id = "enterbutton"> <a href="aids.html">Meet people like you diagnosed with HIV/AIDS</a> </button> 
 
 	</div> 
 	
 <p>Map images & frequency estimates courtesy of CIA world FactBook, for 2009</p>
 <p>Data & factoids courtesy CDC: http://www.cdc.gov/hiv/topics/surveillance/basic.htm, AIDS.gov </p>
-<p>World infection rate provided by avert.org </p> 
+<p>World infection rate provided by amFAR </p> 
 <p>US population ethnicity data provided by the US Census Bureau</p>
+<p> National HIV/AIDS strategy: http://www.whitehouse.gov/sites/default/files/uploads/NHAS.pdf </p>
 </div> 
 
 <script> 
