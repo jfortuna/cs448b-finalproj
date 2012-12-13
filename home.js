@@ -226,7 +226,7 @@ function showMap() {
     
 }	
 function showAges() {
-	$("#casesA").css("background-color", "#FEE5D9"); 
+	$("#casesA").css("background-color", "#FB6A4A"); 
 	var width = 600,
     height = 600,
     format = d3.format(",d"),
@@ -261,8 +261,16 @@ function showAges() {
                 d3.selectAll("#ageBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
                 document.getElementById("agesTitle").innerHTML = "New HIV/AIDS diagnoses in 2010, by age group"; 
-                $("#popA").css("background-color", "#FB6A4A"); 
-                $("#casesA").css("background-color", "#FEE5D9"); 
+                $("#popA").css("background-color", "#FEE5D9"); 
+                $("#casesA").css("background-color", "#FB6A4A"); 
+		    	d3.selectAll("#ageBubbles circle, #ageBubbles text").on("mousemove", function(d) {
+		    		nvtooltip.cleanup(); 
+					var event = d3.event; 
+					var d = this.__data__; 
+			    	nvtooltip.show([event.pageX, event.pageY], "<p>Age range: <b>"+ d.className +"</b></p>" + "<p>" + d.cases + " cases</p>");
+				});     
+		                        
+                
             }
             else {
                 d3.selectAll("#ageBubbles circle").transition().duration(1500)
@@ -271,12 +279,18 @@ function showAges() {
                 d3.selectAll("#ageBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
                 document.getElementById("agesTitle").innerHTML = "American population distribution in 2010";
-                $("#casesA").css("background-color", "#FB6A4A"); 
-                $("#popA").css("background-color", "#FEE5D9"); 
+                $("#casesA").css("background-color", "#FEE5D9"); 
+                $("#popA").css("background-color", "#FB6A4A"); 
+		    	d3.selectAll("#ageBubbles circle, #ageBubbles text").on("mousemove", function(d) {
+		    		nvtooltip.cleanup(); 
+					var event = d3.event; 
+					var d = this.__data__; 
+			    	nvtooltip.show([event.pageX, event.pageY], "<p>Age range: <b>"+ d.className +"</b></p>" + "<p>" + Math.ceil(d.pop/1000) + " million people</p>");
+				});     
+                        
+                
             }
-        }
-                                       
-		);
+        });
 		
         node.append("circle")
         .attr("r", function(d) { return d.r; })
@@ -309,7 +323,7 @@ function showAges() {
         
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.size});
+            else classes.push({packageName: name, className: node.name, value: node.size, pop:node.pop, cases:node.size});
         }
         
         recurse(null, root);
@@ -321,7 +335,7 @@ function showAges() {
         
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.pop});
+            else classes.push({packageName: name, className: node.name, value: node.pop, pop:node.pop, cases:node.size});
         }
         
         recurse(null, root);
@@ -334,24 +348,24 @@ function showAges() {
 
 function showEthnicities() {
 	ethLegend(); 
-		$("#casesE").css("background-color", "#FEE5D9"); 
+		$("#casesE").css("background-color", "#FB6A4A"); 
 
 	var width = 600,
     height = 600,
     format = d3.format(",d"),
     color = d3.scale.category20();
-	
+
 	var bubble = d3.layout.pack()
     .sort(null)
     .size([width, height])
     .padding(10);
-	
+
 	var svg = d3.select("#ethBubbles").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "bubble");
     
-	
+
 	d3.json("flareEth.json", function(root) {
         var arrP = bubble.nodes(classesPop(root));
         var arrC = bubble.nodes(classesCases(root)); 
@@ -371,8 +385,15 @@ function showEthnicities() {
                 d3.selectAll("#ethBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrC[i+1].x) + "," + (0 - d.y + arrC[i+1].y) + ")"; });
                 document.getElementById("ethTitle").innerHTML = "New HIV/AIDS diagnoses in 2010, by ethnicity"; 
-                $("#popE").css("background-color", "#FB6A4A"); 
-                $("#casesE").css("background-color", "#FEE5D9"); 
+                $("#popE").css("background-color", "#FEE5D9"); 
+                $("#casesE").css("background-color", "#FB6A4A"); 
+                       	d3.selectAll("#ethBubbles circle, #ethBubbles text").on("mousemove", function(d) {
+    		nvtooltip.cleanup(); 
+			console.log(d); 
+			var event = d3.event; 
+			var d = this.__data__; 
+	    	nvtooltip.show([event.pageX, event.pageY], "<p>Race/ethnicity: <b>"+ d.className +"</b></p>" + "<p>" + d.value + " cases</p>");
+		});     
             }
             else {
                 d3.selectAll("#ethBubbles circle").transition().duration(1500)
@@ -381,8 +402,15 @@ function showEthnicities() {
                 d3.selectAll("#ethBubbles text").transition().duration(1500)
 		 		.attr("transform", function(d, i) { return "translate(" + (0 - d.x + arrP[i+1].x) + "," + (0 - d.y + arrP[i+1].y) + ")"; });
                 document.getElementById("ethTitle").innerHTML = "American population distribution in 2010"; 
-                $("#casesE").css("background-color", "#FB6A4A"); 
-                $("#popE").css("background-color", "#FEE5D9"); 
+                $("#casesE").css("background-color", "#FEE5D9"); 
+                $("#popE").css("background-color", "#FB6A4A"); 
+                       	d3.selectAll("#ethBubbles circle, #ethBubbles text").on("mousemove", function(d) {
+    		nvtooltip.cleanup(); 
+			console.log(d); 
+			var event = d3.event; 
+			var d = this.__data__; 
+	    	nvtooltip.show([event.pageX, event.pageY], "<p>Race/ethnicity: <b>"+ d.className +"</b></p>" + "<p>" + Math.ceil(d.pop * 3.09) + " million people</p>");
+		});     
 
             }
             
@@ -390,9 +418,9 @@ function showEthnicities() {
         }
                                  
 		);
-		
+
   
-		
+
         
         node.append("circle")
         .attr("r", function(d) { return d.r; })
@@ -404,7 +432,7 @@ function showEthnicities() {
         .attr("dy", ".1em")
         .style("text-anchor", "middle")
         .text(function(d) { return d.className; });
-        	d3.selectAll("#ethBubbles circle, #ethBubbles text").on("mousemove", function(d) {
+       	d3.selectAll("#ethBubbles circle, #ethBubbles text").on("mousemove", function(d) {
     		nvtooltip.cleanup(); 
 			console.log(d); 
 			var event = d3.event; 
@@ -419,103 +447,41 @@ function showEthnicities() {
         
         
 	});
-	
+
 	// Returns a flattened hierarchy containing all leaf nodes under the root.
 	function classesCases(root) {
         var classes = [];
         
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.size});
+            else classes.push({packageName: name, className: node.name, value: node.size, pop:node.pop, cases:node.size});
         }
         
         recurse(null, root);
         return {children: classes};
 	}
-	
+
 	function classesPop(root) {
         var classes = [];
         
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.pop});
+            else classes.push({packageName: name, className: node.name, value: node.pop, pop:node.pop, cases:node.size});
         }
         
         recurse(null, root);
         return {children: classes};
 	}
-	
+
 	d3.select(self.frameElement).style("height", height + "px");
 }
 
 
 
-
-function showTreemap() {
-	$("#casesSexy").css("background-color", "#FEE5D9"); 
-
-    var margin = {top: 40, right: 10, bottom: 10, left: 10},
-    width = 700 - margin.left - margin.right,
-    height = 375 - margin.top - margin.bottom;
-    
-    var color = d3.scale.category20c();
-    
-    var treemap = d3.layout.treemap()
-    .size([width, height])
-    .sticky(true)
-    .value(function(d) { return d.size; });
-    
-    var div = d3.select("#sexytree").append("div")
-    .style("position", "relative")
-    .style("width", (width + margin.left + margin.right) + "px")
-    .style("height", (height + margin.top + margin.bottom) + "px")
-    .style("left", margin.left + "px")
-    .style("top", margin.top + "px");
-    
-    d3.json("sexy.json", function(root) {
-        var node = div.datum(root).selectAll(".node")
-        .data(treemap.nodes)
-        .enter().append("div")
-        .attr("class", "node")
-        .call(position)
-        .style("background", function(d) { return d.children ? color(d.name) : null; })
-        .text(function(d) { return d.children ? null : d.name; });
-        
-        d3.selectAll("input").on("click", function change() {
-            var value = this.value === "equal distribution"
-            ? function() { 
-            	$("#casesSexy").css("background-color", "#FB6A4A"); 
-                $("#equalSexy").css("background-color", "#FEE5D9"); 
-
-         
-            	return 1; }
-            : function(d) { 
-            	$("#equalSexy").css("background-color", "#FB6A4A"); 
-                $("#casesSexy").css("background-color", "#FEE5D9"); 
-
-            	return d.size; };
-            
-            node
-            .data(treemap.value(value).nodes)
-            .transition()
-            .duration(1500)
-            .call(position);
-        });
-    });
-    
-    function position() {
-        this.style("left", function(d) { return d.x + "px"; })
-        .style("top", function(d) { return d.y + "px"; })
-        .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-        .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
-    }
-    displayLegend(); 
-}
-
 function ethLegend() {
      var legend = d3.select("#ethLegend").append("svg")
      .attr("width", 500)
-     .attr("height", 500)
+     .attr("height", 200)
      .append("g");
      var yPos = 25;
      
